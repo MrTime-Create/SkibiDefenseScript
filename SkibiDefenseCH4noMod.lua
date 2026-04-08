@@ -41,8 +41,7 @@ if game.PlaceId == 14279724900 then
     local PlaceTowerRemote = ReplicatedStorage:WaitForChild("Event"):WaitForChild("placeTower")
     local UpgradeTowerRemote = ReplicatedStorage:WaitForChild("Event"):WaitForChild("UpgradeTower")
 
-    -- ป้องกันหา leaderstats ไม่เจอด้วยการใส่เวลา Timeout (10 วินาที)
-    local Money = Player:WaitForChild("leaderstats", 10):WaitForChild("Money", 10)
+    local Money = Player:WaitForChild("leaderstats"):WaitForChild("Money")
     
     local TeleportService = game:GetService("TeleportService")
 
