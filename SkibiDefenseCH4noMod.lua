@@ -102,7 +102,9 @@ local function AutoPlay()
                     table.clear(placedTowers)
                     isReplaying = false
                     print("System Reset! Ready for the next match.")
+                    
                     task.wait(5)
+                    table.clear(placedTowers)
                     SetGameSpeed(5)
                 end)
             end
