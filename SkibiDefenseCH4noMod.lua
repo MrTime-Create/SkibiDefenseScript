@@ -1,7 +1,7 @@
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
-task.wait(2)
+print("Will teleport you into game")
 
 local Player = game:GetService("Players").LocalPlayer
 
