@@ -28,7 +28,7 @@ local TowerPrice = {
 local TowerLocation = {
     [1] = {Name = "UpgSilver", CFrame = CFrame.new(-391.57293701171875, -279.7645568847656, 277.38739013671875, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
     [2] = {Name = "Speakerwoman", CFrame = CFrame.new(-392.5389404296875, -279.764404296875, 271.63232421875, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
-    [3] = {Name = "DJ", CFrame = CFrame.new(-414.0150146484375, -279.7644348144531, 270.2640075683594, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
+    [3] = {Name = "DJ", CFrame = CFrame.new(-428.2357482910156, -279.7644348144531, 281.806884765625, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
     [4] = {Name = "UTCP", CFrame = CFrame.new(-336.0376892089844, -279.764404296875, 276.20135498046875, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
 }
 
@@ -62,7 +62,7 @@ local isReplaying = false
 local function CheckAndPlaceTowers()
     for i = 1, #TowerPrice do
         if not placedTowers[i] and Money.Value >= TowerPrice[i].Price then
-            PlaceTowerRemote:FireServer(TowerPrice[i].Name, TowerLocation[i].CFrame)
+            PlaceTowerRemote:FireServer(TowerPrice[i].Name, TowerLocation[i].CFrame, false)
             placedTowers[i] = true
             print("Placed " .. TowerPrice[i].Name .. "!")
             
