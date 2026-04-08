@@ -21,7 +21,7 @@ local TowerData = game:GetService("Workspace"):WaitForChild("Scripted"):WaitForC
 local TowerPrice = {
     [1] = {Name = "UpgSilver", Price = 0},
     [2] = {Name = "Speakerwoman", Price = 700},
-    [3] = {Name = "DJ", Price = 12500},
+    [3] = {Name = "DJ", Price = 13500},
     [4] = {Name = "UTCP", Price = 10500000},
 }
 
@@ -59,20 +59,16 @@ end
 local placedTowers = {}
 local isReplaying = false
 
-local function CheckAndPlaceTowers(Delay)
-    task.spawn(function()
-        while task.wait(Delay) do
-            for i = 1, #TowerPrice do
-                if not placedTowers[i] and Money.Value >= TowerPrice[i].Price then
-                    PlaceTowerRemote:FireServer(TowerPrice[i].Name, TowerLocation[i].CFrame, false)
-                    placedTowers[i] = true
-                    print("Placed " .. TowerPrice[i].Name .. "!")
-                    
-                    task.wait(0.3) 
-                end
-            end
+local function CheckAndPlaceTowers()
+    for i = 1, #TowerPrice do
+        if not placedTowers[i] and Money.Value >= TowerPrice[i].Price then
+            PlaceTowerRemote:FireServer(TowerPrice[i].Name, TowerLocation[i].CFrame, false)
+            placedTowers[i] = true
+            print("Placed " .. TowerPrice[i].Name .. "!")
+            
+            task.wait(0.3) 
         end
-    end)
+    end
 end
 
 local function AutoPlay()
@@ -113,7 +109,7 @@ local function AutoPlay()
         end
     end)
     
-    CheckAndPlaceTowers(1)
+    CheckAndPlaceTowers()
 end
 
 AutoPlay()
