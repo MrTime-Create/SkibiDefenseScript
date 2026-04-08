@@ -24,15 +24,12 @@ if game.PlaceId == 14279693118 then
         CreateRemote:InvokeServer("Chapter 4")
         task.wait(1)
         StartRemote:FireServer()
-        if queue_on_teleport then
-            queue_on_teleport(ScriptToRun)
-        end
-        
     end
     
     return 
 end
 
+-- Match logic
 if game.PlaceId == 14279724900 then
     print("In Match: Starting AutoPlay...")
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -163,8 +160,6 @@ end
                     task.spawn(function()
                         table.clear(placedTowers)
                         print("Placed Towers list has been reset!")
-                        
-                        print("System Reset! Ready for the next match.")
                         
                         task.wait(5)
                         print("Teleport back to lobby...")
