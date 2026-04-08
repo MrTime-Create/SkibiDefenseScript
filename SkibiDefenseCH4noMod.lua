@@ -22,7 +22,7 @@ local TowerPrice = {
     [1] = {Name = "UpgSilver", Price = 0},
     [2] = {Name = "Speakerwoman", Price = 700},
     [3] = {Name = "DJ", Price = 12500},
-    [4] = {Name = "UTCP", Price = 1000000},
+    [4] = {Name = "UTCP", Price = 10500000},
 }
 
 local TowerLocation = {
@@ -31,11 +31,6 @@ local TowerLocation = {
     [3] = {Name = "DJ", CFrame = CFrame.new(-414.0150146484375, -279.7644348144531, 270.2640075683594, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
     [4] = {Name = "UTCP", CFrame = CFrame.new(-336.0376892089844, -279.764404296875, 276.20135498046875, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
 }
-
---local function MoneySay()
---    print("You Have "..Money.Value.." $")
---end
---MoneySay()
 
 local function SetGameSpeed(Value)
     ChangeRemote:FireServer(Value)
@@ -60,28 +55,6 @@ local function AutoUpgTower(Delay)
         end
     end)
 end
-
---local function AutoPlay()
---    SetGameSpeed(5)
---    WaveSkipsAuto(0.1)
---    AutoUpgTower(0.25)
---    if WaveGui and WaveGui.Text then
---        -- Extracts only the digits from the string (e.g., gets "5" from "WAVE 5")
---        local waveNumber = tonumber(string.match(WaveGui.Text, "%d+"))
---        
---        -- Check if a number was successfully found and if it's >= 1
---        if waveNumber and waveNumber >= 1 then
---            print("Current Wave: " .. waveNumber)
---
---            if waveNumber >= 1 then
---                PlaceTowerRemote:FireServer(TowerPrice[1].Name, TowerLocation[1].CFrame)
---                if Money.Value >= 650 then
---                    PlaceTowerRemote:FireServer(TowerPrice[2].Name, TowerLocation[2].CFrame)
---                end
---            end
---        end
---    end
---end
 
 local placedTowers = {}
 local isReplaying = false
@@ -108,14 +81,12 @@ local function AutoPlay()
     WaveGui:GetPropertyChangedSignal("Text"):Connect(function()
         local waveNumber = tonumber(string.match(WaveGui.Text, "%d+"))
         
-        -- เช็คก่อนว่าดึงตัวเลขมาได้ไหม ป้องกัน Error
         if waveNumber then
             -- เงื่อนไขที่ 1: เช็ควางป้อม
             if waveNumber >= 1 then
                 CheckAndPlaceTowers()
             end
             
-            -- เงื่อนไขที่ 2: เช็ค Replay (แยก if ออกมา ไม่ใช้ elseif)
             if waveNumber >= 25 and not isReplaying then
                 isReplaying = true
                 print("Wave 25 Reached! Preparing to replay...")
