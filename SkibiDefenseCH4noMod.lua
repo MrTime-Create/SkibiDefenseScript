@@ -29,7 +29,7 @@ local TowerLocation = {
     [1] = {Name = "UpgSilver", CFrame = CFrame.new(-391.57293701171875, -279.7645568847656, 277.38739013671875, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
     [2] = {Name = "Speakerwoman", CFrame = CFrame.new(-392.5389404296875, -279.764404296875, 271.63232421875, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
     [3] = {Name = "DJ", CFrame = CFrame.new(-414.0150146484375, -279.7644348144531, 270.2640075683594, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
-    [4] = {Name = "UTCP", CFrame = CFrame.new(-389.4702453613281, -279.764404296875, 234.96914672851562, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
+    [4] = {Name = "UTCP", CFrame = CFrame.new(-336.0376892089844, -279.764404296875, 276.20135498046875, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
 }
 
 --local function MoneySay()
@@ -90,7 +90,7 @@ local function CheckAndPlaceTowers()
     for i = 1, #TowerPrice do
         if not placedTowers[i] and Money.Value >= TowerPrice[i].Price then
             PlaceTowerRemote:FireServer(TowerPrice[i].Name, TowerLocation[i].CFrame)
-            placedTowers[i] = true -- บันทึกว่าวางแล้ว จะได้ไม่วางซ้ำ
+            placedTowers[i] = true
             print("Placed " .. TowerPrice[i].Name .. "!")
         end
     end
@@ -130,6 +130,8 @@ local function AutoPlay()
                     table.clear(placedTowers)
                     isReplaying = false
                     print("System Reset! Ready for the next match.")
+                    task.wait(5)
+                    SetGameSpeed(5)
                 end)
             end
         end
