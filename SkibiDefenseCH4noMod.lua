@@ -45,8 +45,8 @@ if game.PlaceId == 14279724900 then
     
     local TeleportService = game:GetService("TeleportService")
 
-    local WaveGui = Player.PlayerGui:WaitForChild("Data", 10):WaitForChild("Wave"):WaitForChild("Frame"):WaitForChild("TextLabel")
-    local TowerData = game:GetService("Workspace"):WaitForChild("Scripted", 10):WaitForChild("TowerData")
+    local WaveGui = Player.PlayerGui:WaitForChild("Data"):WaitForChild("Wave"):WaitForChild("Frame"):WaitForChild("TextLabel")
+    local TowerData = game:GetService("Workspace"):WaitForChild("Scripted"):WaitForChild("TowerData")
 
     local TowerPrice = {
         [1] = {Name = "UpgSilver", Price = 0},
@@ -64,6 +64,8 @@ if game.PlaceId == 14279724900 then
 
     local placedTowers = {}
     local isReplaying = false
+    task.wait(5)
+    StartGameRemote:FireServer(true)
 
     local function SetGameSpeed(Value)
         ChangeRemote:FireServer(Value)
