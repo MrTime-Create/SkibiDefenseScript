@@ -1,7 +1,11 @@
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
-print("Will teleport you into game")
+wait(1)
+local virtualUser = game:GetService("VirtualUser")
+virtualUser:ClickButton1(Vector2.new(0, 0))
+
+task.wait(2)
 
 local Player = game:GetService("Players").LocalPlayer
 
@@ -17,14 +21,11 @@ end
 
 if game.PlaceId == 14279693118 then
     print("At Lobby: Creating Server...")
-    local CreateRemote = game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("createServer")
-    local StartRemote = game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("start")
+    local CreateRemote = game:GetService("ReplicatedStorage"):WaitForChild("Events", 10):WaitForChild("createServer")
+    local StartRemote = game:GetService("ReplicatedStorage"):WaitForChild("Events", 10):WaitForChild("start")
     
     if CreateRemote and StartRemote then
         CreateRemote:InvokeServer("Chapter 4")
-        if queue_on_teleport then
-            queue_on_teleport(ScriptToRun)
-        end
         task.wait(1)
         StartRemote:FireServer()
     end
@@ -32,7 +33,6 @@ if game.PlaceId == 14279693118 then
     return 
 end
 
--- Match logic
 if game.PlaceId == 14279724900 then
     print("In Match: Starting AutoPlay...")
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -130,6 +130,7 @@ if game.PlaceId == 14279724900 then
                         end
                         
                         TeleportService:Teleport(14279693118, Player)
+                        
                         break
                     end
                 end
@@ -163,13 +164,14 @@ end
                         table.clear(placedTowers)
                         print("Placed Towers list has been reset!")
                         
+                        print("System Reset! Ready for the next match.")
+                        
                         task.wait(5)
                         print("Teleport back to lobby...")
+                        TeleportService:Teleport(14279693118, Player)
                         if queue_on_teleport then
                             queue_on_teleport(ScriptToRun)
                         end
-                        
-                        TeleportService:Teleport(14279693118, Player)
                     end)
                 end
             end)
