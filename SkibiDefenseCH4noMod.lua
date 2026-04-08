@@ -32,6 +32,9 @@ local TowerLocation = {
     [4] = {Name = "UTCP", CFrame = CFrame.new(-336.0376892089844, -279.764404296875, 276.20135498046875, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
 }
 
+local placedTowers = {}
+local isReplaying = false
+
 local function SetGameSpeed(Value)
     ChangeRemote:FireServer(Value)
 end
@@ -56,42 +59,34 @@ local function AutoUpgTower(Delay)
     end)
 end
 
-local placedTowers = {}
-local isReplaying = false
-
-local function CheckAndPlaceTowers()
-    for i = 1, #TowerPrice do
-        if not placedTowers[i] and Money.Value >= TowerPrice[i].Price then
-            PlaceTowerRemote:FireServer(TowerPrice[i].Name, TowerLocation[i].CFrame, false)
-            placedTowers[i] = true
-            print("Placed " .. TowerPrice[i].Name .. "!")
-            
-            task.wait(1) 
+local function AutoPlaceTowersCheck()
+    task.spawn(function()
+        while task.wait(0.5) do
+            if not isReplaying then
+                for i = 1, #TowerPrice do
+                    if not placedTowers[i] and Money.Value >= TowerPrice[i].Price then
+                        PlaceTowerRemote:FireServer(TowerPrice[i].Name, TowerLocation[i].CFrame, false)
+                        placedTowers[i] = true
+                        print("Placed " .. TowerPrice[i].Name .. "!")
+                        
+                        task.wait(1)
+                    end
+                end
+            end
         end
-    end
+    end)
 end
 
 local function AutoPlay()
     SetGameSpeed(5)
     WaveSkipsAuto(0.1)
     AutoUpgTower(0.25)
-
-    Money:GetPropertyChangedSignal("Value"):Connect(function()
-        CheckAndPlaceTowers()
-    end)
+    AutoPlaceTowersCheck() -- เรียกใช้งาน Auto Place
 
     WaveGui:GetPropertyChangedSignal("Text"):Connect(function()
         local waveNumber = tonumber(string.match(WaveGui.Text, "%d+"))
         
         if waveNumber then
-            if waveNumber >= 1 then
-                CheckAndPlaceTowers()
-            end
-
-            while wait(0.5) do 
-                CheckAndPlaceTowers()
-            end
-            
             if waveNumber >= 25 and not isReplaying then
                 isReplaying = true
                 print("Wave 25 Reached! Preparing to replay...")
@@ -103,19 +98,18 @@ local function AutoPlay()
                     task.wait(10)
                     pcall(function() StartGameRemote:FireServer(true) end)
                     
+                    table.clear(placedTowers)
+                    print("Placed Towers list has been reset!")
                     
                     isReplaying = false
                     print("System Reset! Ready for the next match.")
                     
                     task.wait(5)
-                    table.clear(placedTowers)
                     SetGameSpeed(5)
                 end)
             end
         end
     end)
-    
-    CheckAndPlaceTowers()
 end
 
 AutoPlay()
