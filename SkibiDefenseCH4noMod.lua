@@ -164,10 +164,10 @@ end
                         
                         task.wait(5)
                         print("Teleport back to lobby...")
-                        TeleportService:Teleport(14279693118, Player)
                         if queue_on_teleport then
                             queue_on_teleport(ScriptToRun)
                         end
+                        TeleportService:Teleport(14279693118, Player)
                     end)
                 end
             end)
