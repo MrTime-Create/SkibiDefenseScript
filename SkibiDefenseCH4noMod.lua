@@ -1,11 +1,9 @@
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
-wait(1)
-local virtualUser = game:GetService("VirtualUser")
-virtualUser:ClickButton1(Vector2.new(0, 0))
 
-task.wait(2)
+
+wait(2)
 
 local Player = game:GetService("Players").LocalPlayer
 
@@ -21,12 +19,18 @@ end
 
 if game.PlaceId == 14279693118 then
     print("At Lobby: Creating Server...")
-    local CreateRemote = game:GetService("ReplicatedStorage"):WaitForChild("Events", 10):WaitForChild("createServer")
-    local StartRemote = game:GetService("ReplicatedStorage"):WaitForChild("Events", 10):WaitForChild("start")
+    local CreateRemote = game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("createServer")
+    local StartRemote = game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("start")
     
     if CreateRemote and StartRemote then
+        wait(1)
+        local virtualUser = game:GetService("VirtualUser")
+        virtualUser:ClickButton1(Vector2.new(0, 0))
+        wait(5)
+
+
         CreateRemote:InvokeServer("Chapter 4")
-        task.wait(1)
+        wait(1)
         StartRemote:FireServer()
     end
     
@@ -50,7 +54,7 @@ if game.PlaceId == 14279724900 then
     local BaseHPGui = Player.PlayerGui:WaitForChild("Data"):WaitForChild("HP"):WaitForChild("Frame"):WaitForChild("TextLabel")
     local TowerData = game:GetService("Workspace"):WaitForChild("Scripted"):WaitForChild("TowerData")
 
-    task.wait(3)
+    wait(3)
     StartGameRemote:FireServer(true)
 
     local Money = Player:WaitForChild("leaderstats"):WaitForChild("Money")
@@ -77,7 +81,7 @@ if game.PlaceId == 14279724900 then
 
     local function WaveSkipsAuto(Delay)
         task.spawn(function()
-            while task.wait(Delay) do
+            while wait(Delay) do
                 pcall(function() WaveSkipsRemote:FireServer(true) end)
             end
         end)
@@ -85,7 +89,7 @@ if game.PlaceId == 14279724900 then
 
     local function AutoUpgTower(Delay)
         task.spawn(function()
-            while task.wait(Delay) do
+            while wait(Delay) do
                 for _, tower in pairs(TowerData:GetChildren()) do
                     pcall(function()
                         UpgradeTowerRemote:FireServer(tower.Name) 
@@ -97,7 +101,7 @@ if game.PlaceId == 14279724900 then
 
     local function AutoPlaceTowersCheck()
         task.spawn(function()
-            while task.wait(0.5) do
+            while wait(0.5) do
                 if Money then
                     for i = 1, #TowerPrice do
                         if not placedTowers[i] and Money.Value >= TowerPrice[i].Price then
@@ -106,7 +110,7 @@ if game.PlaceId == 14279724900 then
                                 placedTowers[i] = true
                                 print("Placed " .. TowerPrice[i].Name .. "!")
                             end)
-                            task.wait(1)
+                            wait(1)
                         end
                     end
                 end
@@ -116,7 +120,7 @@ if game.PlaceId == 14279724900 then
 
     local function CheckBaseHP()
     task.spawn(function()
-        while task.wait(0.2) do
+        while wait(0.2) do
             if BaseHPGui then
                 local hpString = string.match(BaseHPGui.Text, "%d+") 
                 
@@ -140,7 +144,7 @@ if game.PlaceId == 14279724900 then
 end
 
     local function AutoPlay()
-        task.wait(2)
+        wait(5)
         SetGameSpeed(5)
         WaveSkipsAuto(0.1)
         AutoUpgTower(0.25)
@@ -166,7 +170,7 @@ end
                         
                         print("System Reset! Ready for the next match.")
                         
-                        task.wait(5)
+                        wait(5)
                         print("Teleport back to lobby...")
                         TeleportService:Teleport(14279693118, Player)
                         if queue_on_teleport then
