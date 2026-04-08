@@ -11,8 +11,32 @@ local UpgradeTowerRemote = game:GetService("ReplicatedStorage"):WaitForChild("Ev
 local Player = game:GetService("Players").LocalPlayer
 local Money = Player:WaitForChild("leaderstats"):WaitForChild("Money")
 
+--Other
+local CreateRemote = game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("createServer")
+local StartRemote = game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("start")
+
+local TeleportService = game:GetService("TeleportService")
+local queue_on_teleport = queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport) or getgenv().queue_on_teleport
+
+local ScriptToRun = [[
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/MrTime-Create/SkibiDefenseScript/refs/heads/main/SkibiDefenseCH4noMod.lua"))()
+]]
+
+if queue_on_teleport then
+    queue_on_teleport(ScriptToRun)
+end
+
+if game.PlaceId == 14279693118 then
+    CreateRemote:InvokeServer("Chapter 4")
+    task.wait(1)
+    StartRemote:FireServer()
+elseif game.PlaceId == 14279724900 then
+    --Don't do anything here
+end
+
 --Game Details
 local WaveGui = Player.PlayerGui:WaitForChild("Data"):WaitForChild("Wave"):WaitForChild("Frame"):WaitForChild("TextLabel")
+local GameEndedGui = Player.PlayerGui:WaitForChild("GameEnded")
 
 --Game Workspace
 local TowerData = game:GetService("Workspace"):WaitForChild("Scripted"):WaitForChild("TowerData")
@@ -105,7 +129,10 @@ local function AutoPlay()
                     print("System Reset! Ready for the next match.")
                     
                     task.wait(5)
-                    SetGameSpeed(5)
+                    if queue_on_teleport then
+                        queue_on_teleport(ScriptToRun)
+                    end
+                    TeleportService:Teleport(14279693118, Player)
                 end)
             end
         end
