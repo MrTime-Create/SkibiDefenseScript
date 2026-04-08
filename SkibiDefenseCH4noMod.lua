@@ -59,16 +59,20 @@ end
 local placedTowers = {}
 local isReplaying = false
 
-local function CheckAndPlaceTowers()
-    for i = 1, #TowerPrice do
-        if not placedTowers[i] and Money.Value >= TowerPrice[i].Price then
-            PlaceTowerRemote:FireServer(TowerPrice[i].Name, TowerLocation[i].CFrame, false)
-            placedTowers[i] = true
-            print("Placed " .. TowerPrice[i].Name .. "!")
-            
-            task.wait(0.3) 
+local function CheckAndPlaceTowers(Delay)
+    task.spawn(function()
+        while task.wait(Delay) do
+            for i = 1, #TowerPrice do
+                if not placedTowers[i] and Money.Value >= TowerPrice[i].Price then
+                    PlaceTowerRemote:FireServer(TowerPrice[i].Name, TowerLocation[i].CFrame, false)
+                    placedTowers[i] = true
+                    print("Placed " .. TowerPrice[i].Name .. "!")
+                    
+                    task.wait(0.3) 
+                end
+            end
         end
-    end
+    end)
 end
 
 local function AutoPlay()
@@ -109,7 +113,7 @@ local function AutoPlay()
         end
     end)
     
-    CheckAndPlaceTowers()
+    CheckAndPlaceTowers(1)
 end
 
 AutoPlay()
