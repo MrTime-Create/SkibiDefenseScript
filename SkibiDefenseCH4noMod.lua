@@ -1,0 +1,141 @@
+--GameRemotes
+local ChangeRemote = game:GetService("ReplicatedStorage"):WaitForChild("Game"):WaitForChild("Speed"):WaitForChild("Change")
+local WaveSkipsRemote = game:GetService("ReplicatedStorage"):WaitForChild("Event"):WaitForChild("waveSkip")
+local StartGameRemote = game:GetService("ReplicatedStorage"):WaitForChild("GAME_START"):WaitForChild("readyButton")
+local ReplayCoreRemote = game:GetService("ReplicatedStorage"):WaitForChild("Event"):WaitForChild("ReplayCore")
+
+local PlaceTowerRemote = game:GetService("ReplicatedStorage"):WaitForChild("Event"):WaitForChild("placeTower")
+local UpgradeTowerRemote = game:GetService("ReplicatedStorage"):WaitForChild("Event"):WaitForChild("UpgradeTower")
+
+--Player Data
+local Player = game:GetService("Players").LocalPlayer
+local Money = Player:WaitForChild("leaderstats"):WaitForChild("Money")
+
+--Game Details
+local WaveGui = Player.PlayerGui:WaitForChild("Data"):WaitForChild("Wave"):WaitForChild("Frame"):WaitForChild("TextLabel")
+
+--Game Workspace
+local TowerData = game:GetService("Workspace"):WaitForChild("Scripted"):WaitForChild("TowerData")
+
+--Tower Needed
+local TowerPrice = {
+    [1] = {Name = "UpgSilver", Price = 0},
+    [2] = {Name = "Speakerwoman", Price = 700},
+    [3] = {Name = "DJ", Price = 12500},
+    [4] = {Name = "UTCP", Price = 1000000},
+}
+
+local TowerLocation = {
+    [1] = {Name = "UpgSilver", CFrame = CFrame.new(-391.57293701171875, -279.7645568847656, 277.38739013671875, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
+    [2] = {Name = "Speakerwoman", CFrame = CFrame.new(-392.5389404296875, -279.764404296875, 271.63232421875, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
+    [3] = {Name = "DJ", CFrame = CFrame.new(-414.0150146484375, -279.7644348144531, 270.2640075683594, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
+    [4] = {Name = "UTCP", CFrame = CFrame.new(-389.4702453613281, -279.764404296875, 234.96914672851562, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
+}
+
+--local function MoneySay()
+--    print("You Have "..Money.Value.." $")
+--end
+--MoneySay()
+
+local function SetGameSpeed(Value)
+    ChangeRemote:FireServer(Value)
+end
+
+local function WaveSkipsAuto(Delay)
+    task.spawn(function()
+        while task.wait(Delay) do
+            WaveSkipsRemote:FireServer(true)
+        end
+    end)
+end
+
+local function AutoUpgTower(Delay)
+    task.spawn(function()
+        while task.wait(Delay) do
+            for _, tower in pairs(TowerData:GetChildren()) do
+                pcall(function()
+                    UpgradeTowerRemote:FireServer(tower.Name) 
+                end)
+            end
+        end
+    end)
+end
+
+--local function AutoPlay()
+--    SetGameSpeed(5)
+--    WaveSkipsAuto(0.1)
+--    AutoUpgTower(0.25)
+--    if WaveGui and WaveGui.Text then
+--        -- Extracts only the digits from the string (e.g., gets "5" from "WAVE 5")
+--        local waveNumber = tonumber(string.match(WaveGui.Text, "%d+"))
+--        
+--        -- Check if a number was successfully found and if it's >= 1
+--        if waveNumber and waveNumber >= 1 then
+--            print("Current Wave: " .. waveNumber)
+--
+--            if waveNumber >= 1 then
+--                PlaceTowerRemote:FireServer(TowerPrice[1].Name, TowerLocation[1].CFrame)
+--                if Money.Value >= 650 then
+--                    PlaceTowerRemote:FireServer(TowerPrice[2].Name, TowerLocation[2].CFrame)
+--                end
+--            end
+--        end
+--    end
+--end
+
+local placedTowers = {}
+local isReplaying = false
+
+local function CheckAndPlaceTowers()
+    for i = 1, #TowerPrice do
+        if not placedTowers[i] and Money.Value >= TowerPrice[i].Price then
+            PlaceTowerRemote:FireServer(TowerPrice[i].Name, TowerLocation[i].CFrame)
+            placedTowers[i] = true -- บันทึกว่าวางแล้ว จะได้ไม่วางซ้ำ
+            print("Placed " .. TowerPrice[i].Name .. "!")
+        end
+    end
+end
+
+local function AutoPlay()
+    SetGameSpeed(5)
+    WaveSkipsAuto(0.1)
+    AutoUpgTower(0.25)
+
+    Money:GetPropertyChangedSignal("Value"):Connect(function()
+        CheckAndPlaceTowers()
+    end)
+
+    WaveGui:GetPropertyChangedSignal("Text"):Connect(function()
+        local waveNumber = tonumber(string.match(WaveGui.Text, "%d+"))
+        
+        -- เช็คก่อนว่าดึงตัวเลขมาได้ไหม ป้องกัน Error
+        if waveNumber then
+            -- เงื่อนไขที่ 1: เช็ควางป้อม
+            if waveNumber >= 1 then
+                CheckAndPlaceTowers()
+            end
+            
+            -- เงื่อนไขที่ 2: เช็ค Replay (แยก if ออกมา ไม่ใช้ elseif)
+            if waveNumber >= 25 and not isReplaying then
+                isReplaying = true
+                print("Wave 25 Reached! Preparing to replay...")
+                
+                task.spawn(function()
+                    task.wait(30)
+                    pcall(function() ReplayCoreRemote:FireServer() end)
+                    
+                    task.wait(10)
+                    pcall(function() StartGameRemote:FireServer(true) end)
+                    
+                    table.clear(placedTowers)
+                    isReplaying = false
+                    print("System Reset! Ready for the next match.")
+                end)
+            end
+        end
+    end)
+    
+    CheckAndPlaceTowers()
+end
+
+AutoPlay()
