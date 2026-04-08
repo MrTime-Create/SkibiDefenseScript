@@ -87,6 +87,10 @@ local function AutoPlay()
             if waveNumber >= 1 then
                 CheckAndPlaceTowers()
             end
+
+            while wait(0.5) do 
+                CheckAndPlaceTowers()
+            end
             
             if waveNumber >= 25 and not isReplaying then
                 isReplaying = true
