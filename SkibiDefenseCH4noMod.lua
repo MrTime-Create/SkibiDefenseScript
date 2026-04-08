@@ -103,12 +103,11 @@ local function AutoPlay()
                     task.wait(10)
                     pcall(function() StartGameRemote:FireServer(true) end)
                     
-                    table.clear(placedTowers)
+                    placedTowers = {}
                     isReplaying = false
                     print("System Reset! Ready for the next match.")
                     
                     task.wait(5)
-                    table.clear(placedTowers)
                     SetGameSpeed(5)
                 end)
             end
