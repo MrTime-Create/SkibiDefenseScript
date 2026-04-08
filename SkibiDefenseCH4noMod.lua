@@ -66,7 +66,7 @@ local function CheckAndPlaceTowers()
             placedTowers[i] = true
             print("Placed " .. TowerPrice[i].Name .. "!")
             
-            task.wait(0.3) 
+            task.wait(1) 
         end
     end
 end
