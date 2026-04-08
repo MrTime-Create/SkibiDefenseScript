@@ -22,7 +22,7 @@ local TowerPrice = {
     [1] = {Name = "UpgSilver", Price = 0},
     [2] = {Name = "Speakerwoman", Price = 700},
     [3] = {Name = "DJ", Price = 13500},
-    [4] = {Name = "UTCP", Price = 10500000},
+    [4] = {Name = "UTCP", Price = 10200000},
 }
 
 local TowerLocation = {
