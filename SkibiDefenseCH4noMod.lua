@@ -46,6 +46,7 @@ if game.PlaceId == 14279724900 then
     local TeleportService = game:GetService("TeleportService")
 
     local WaveGui = Player.PlayerGui:WaitForChild("Data"):WaitForChild("Wave"):WaitForChild("Frame"):WaitForChild("TextLabel")
+    local BaseHPGui = Player.PlayerGui:WaitForChild("Data"):WaitForChild("HP"):WaitForChild("Frame"):WaitForChild("TextLabel")
     local TowerData = game:GetService("Workspace"):WaitForChild("Scripted"):WaitForChild("TowerData")
 
     local TowerPrice = {
@@ -63,7 +64,6 @@ if game.PlaceId == 14279724900 then
     }
 
     local placedTowers = {}
-    local isReplaying = false
 
     local function SetGameSpeed(Value)
         ChangeRemote:FireServer(Value)
@@ -92,7 +92,7 @@ if game.PlaceId == 14279724900 then
     local function AutoPlaceTowersCheck()
         task.spawn(function()
             while task.wait(0.5) do
-                if not isReplaying and Money then
+                if Money then
                     for i = 1, #TowerPrice do
                         if not placedTowers[i] and Money.Value >= TowerPrice[i].Price then
                             pcall(function()
@@ -108,6 +108,31 @@ if game.PlaceId == 14279724900 then
         end)
     end
 
+    local function CheckBaseHP()
+    task.spawn(function()
+        while task.wait(0.2) do
+            if BaseHPGui then
+                local hpString = string.match(BaseHPGui.Text, "%d+") 
+                
+                if hpString then
+                    local currentHP = tonumber(hpString)
+                    if currentHP <= 0 then
+                        print("Base HP is 0! Teleporting back to Lobby...")
+                        
+                        if queue_on_teleport then
+                            queue_on_teleport(ScriptToRun)
+                        end
+                        
+                        TeleportService:Teleport(14279693118, Player)
+                        
+                        break
+                    end
+                end
+            end
+        end
+    end)
+end
+
     local function AutoPlay()
         task.wait(2)
         StartGameRemote:FireServer(true)
@@ -117,11 +142,16 @@ if game.PlaceId == 14279724900 then
         AutoPlaceTowersCheck()
 
         if WaveGui then
-            WaveGui:GetPropertyChangedSignal("Text"):Connect(function()
+            local waveConnection
+            
+            waveConnection = WaveGui:GetPropertyChangedSignal("Text"):Connect(function()
                 local waveNumber = tonumber(string.match(WaveGui.Text, "%d+"))
                 
-                if waveNumber and waveNumber >= 25 and not isReplaying then
-                    isReplaying = true
+                if waveNumber and waveNumber >= 25 then
+                    if waveConnection then 
+                        waveConnection:Disconnect() 
+                    end
+                    
                     print("Wave 25 Reached! Preparing to replay...")
                     
                     task.spawn(function()
@@ -134,7 +164,6 @@ if game.PlaceId == 14279724900 then
                         table.clear(placedTowers)
                         print("Placed Towers list has been reset!")
                         
-                        isReplaying = false
                         print("System Reset! Ready for the next match.")
                         
                         task.wait(5)
