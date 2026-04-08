@@ -31,7 +31,6 @@ end
 
 if game.PlaceId == 14279724900 then
     print("In Match: Starting AutoPlay...")
-    
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local ChangeRemote = ReplicatedStorage:WaitForChild("Game"):WaitForChild("Speed"):WaitForChild("Change")
     local WaveSkipsRemote = ReplicatedStorage:WaitForChild("Event"):WaitForChild("waveSkip")
@@ -40,14 +39,17 @@ if game.PlaceId == 14279724900 then
 
     local PlaceTowerRemote = ReplicatedStorage:WaitForChild("Event"):WaitForChild("placeTower")
     local UpgradeTowerRemote = ReplicatedStorage:WaitForChild("Event"):WaitForChild("UpgradeTower")
-
-    local Money = Player:WaitForChild("leaderstats"):WaitForChild("Money")
     
     local TeleportService = game:GetService("TeleportService")
 
     local WaveGui = Player.PlayerGui:WaitForChild("Data"):WaitForChild("Wave"):WaitForChild("Frame"):WaitForChild("TextLabel")
     local BaseHPGui = Player.PlayerGui:WaitForChild("Data"):WaitForChild("HP"):WaitForChild("Frame"):WaitForChild("TextLabel")
     local TowerData = game:GetService("Workspace"):WaitForChild("Scripted"):WaitForChild("TowerData")
+
+    task.wait(3)
+    StartGameRemote:FireServer(true)
+
+    local Money = Player:WaitForChild("leaderstats"):WaitForChild("Money")
 
     local TowerPrice = {
         [1] = {Name = "UpgSilver", Price = 0},
@@ -135,11 +137,11 @@ end
 
     local function AutoPlay()
         task.wait(2)
-        StartGameRemote:FireServer(true)
         SetGameSpeed(5)
         WaveSkipsAuto(0.1)
         AutoUpgTower(0.25)
         AutoPlaceTowersCheck()
+        CheckBaseHP()
 
         if WaveGui then
             local waveConnection
