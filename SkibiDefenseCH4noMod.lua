@@ -17,8 +17,8 @@ end
 
 if game.PlaceId == 14279693118 then
     print("At Lobby: Creating Server...")
-    local CreateRemote = game:GetService("ReplicatedStorage"):WaitForChild("Events", 10):WaitForChild("createServer")
-    local StartRemote = game:GetService("ReplicatedStorage"):WaitForChild("Events", 10):WaitForChild("start")
+    local CreateRemote = game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("createServer")
+    local StartRemote = game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("start")
     
     if CreateRemote and StartRemote then
         CreateRemote:InvokeServer("Chapter 4")
