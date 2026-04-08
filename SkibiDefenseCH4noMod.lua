@@ -157,12 +157,6 @@ end
                     print("Wave 25 Reached! Preparing to replay...")
                     
                     task.spawn(function()
-                        task.wait(30)
-                        pcall(function() ReplayCoreRemote:FireServer() end)
-                        
-                        task.wait(10)
-                        pcall(function() StartGameRemote:FireServer(true) end)
-                        
                         table.clear(placedTowers)
                         print("Placed Towers list has been reset!")
                         
