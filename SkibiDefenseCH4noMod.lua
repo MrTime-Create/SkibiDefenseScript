@@ -65,6 +65,8 @@ local function CheckAndPlaceTowers()
             PlaceTowerRemote:FireServer(TowerPrice[i].Name, TowerLocation[i].CFrame)
             placedTowers[i] = true
             print("Placed " .. TowerPrice[i].Name .. "!")
+            
+            task.wait(0.3) 
         end
     end
 end
@@ -82,7 +84,6 @@ local function AutoPlay()
         local waveNumber = tonumber(string.match(WaveGui.Text, "%d+"))
         
         if waveNumber then
-            -- เงื่อนไขที่ 1: เช็ควางป้อม
             if waveNumber >= 1 then
                 CheckAndPlaceTowers()
             end
