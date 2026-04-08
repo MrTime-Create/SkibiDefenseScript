@@ -64,8 +64,6 @@ if game.PlaceId == 14279724900 then
 
     local placedTowers = {}
     local isReplaying = false
-    task.wait(5)
-    StartGameRemote:FireServer(true)
 
     local function SetGameSpeed(Value)
         ChangeRemote:FireServer(Value)
@@ -112,6 +110,7 @@ if game.PlaceId == 14279724900 then
 
     local function AutoPlay()
         task.wait(2)
+        StartGameRemote:FireServer(true)
         SetGameSpeed(5)
         WaveSkipsAuto(0.1)
         AutoUpgTower(0.25)
