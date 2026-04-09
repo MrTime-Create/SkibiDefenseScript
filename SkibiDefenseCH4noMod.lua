@@ -68,10 +68,12 @@ if game.PlaceId == 14279693118 then
             end
         else
             warn("Could not find the Start button! Make sure the path is correct.")
+        end
     else
         warn("Failed to create server: " .. tostring(err))
     end
 end
+
 
 
 if game.PlaceId == 14279724900 then
