@@ -16,21 +16,32 @@ end
 
 if game.PlaceId == 14279693118 then
     task.wait(5)
+    
+    -- จำลองการคลิกเพื่อป้องกันการเช็ค AFK หรือเพื่อโฟกัสหน้าต่าง
     game:GetService("VirtualUser"):CaptureController()
-	game:GetService("VirtualUser"):ClickButton1(Vector2.new())
-    end)
+    game:GetService("VirtualUser"):ClickButton1(Vector2.new())
+
     task.wait(10)
     print("At Lobby: Creating Server...")
+
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local Events = ReplicatedStorage:WaitForChild("Events")
     local CreateRemote = Events:WaitForChild("createServer")
     local StartRemote = Events:WaitForChild("start")
+
     print("Sending Create Server Request...")
-    CreateRemote:InvokeServer("Chapter 4")
-    print("Server Created! Starting Game...")
-    task.wait(10)
-    StartRemote:FireServer()
-    return
+    -- ใช้ pcall เพื่อป้องกันสคริปต์ค้างหาก Remote เกิด Error
+    local success, err = pcall(function()
+        CreateRemote:InvokeServer("Chapter 4")
+    end)
+
+    if success then
+        print("Server Created! Starting Game...")
+        task.wait(10)
+        StartRemote:FireServer()
+    else
+        warn("Failed to create server: " .. tostring(err))
+    end
 end
 
 if game.PlaceId == 14279724900 then
