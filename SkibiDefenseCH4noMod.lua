@@ -15,7 +15,10 @@ if queue_on_teleport then
 end
 
 if game.PlaceId == 14279693118 then
-    task.wait(15)
+    task.wait(5)
+    game:GetService("VirtualUser"):CaptureController()
+	game:GetService("VirtualUser"):ClickButton2(Vector2.new())end)
+    task.wait(10)
     print("At Lobby: Creating Server...")
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local Events = ReplicatedStorage:WaitForChild("Events")
