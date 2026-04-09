@@ -3,7 +3,7 @@ if not game:IsLoaded() then
 end
 
 
-wait(2)
+wait(10)
 
 local Player = game:GetService("Players").LocalPlayer
 
@@ -52,10 +52,11 @@ if game.PlaceId == 14279724900 then
 
     local WaveGui = Player.PlayerGui:WaitForChild("Data"):WaitForChild("Wave"):WaitForChild("Frame"):WaitForChild("TextLabel")
     local BaseHPGui = Player.PlayerGui:WaitForChild("Data"):WaitForChild("HP"):WaitForChild("Frame"):WaitForChild("TextLabel")
-    local TowerData = game:GetService("Workspace"):WaitForChild("Scripted"):WaitForChild("TowerData")
-
+    
     wait(3)
     StartGameRemote:FireServer(true)
+    local TowerData = game:GetService("Workspace"):WaitForChild("Scripted"):WaitForChild("TowerData")
+    local EnemiesData = game:GetService("Workspace"):WaitForChild("Scripted"):WaitForChild("Enemies")
 
     local Money = Player:WaitForChild("leaderstats"):WaitForChild("Money")
 
@@ -74,6 +75,7 @@ if game.PlaceId == 14279724900 then
     }
 
     local placedTowers = {}
+    local isBeat = false
 
     local function SetGameSpeed(Value)
         ChangeRemote:FireServer(Value)
@@ -94,6 +96,20 @@ if game.PlaceId == 14279724900 then
                     pcall(function()
                         UpgradeTowerRemote:FireServer(tower.Name) 
                     end)
+                end
+            end
+        end)
+    end
+
+    local function CheckEnemiesOnWave25()
+        task.spawn(function()
+            while wait(1) do
+                local waveNumber = tonumber(string.match(WaveGui.Text, "%d+"))
+                
+                if waveNumber and waveNumber >= 25 and #EnemiesData:GetChildren() == 0 then
+                    isBeat = true
+                    print("Wave 25 cleared: Victory detected!")
+                    break
                 end
             end
         end)
@@ -145,11 +161,13 @@ end
 
     local function AutoPlay()
         wait(5)
+        -- Start all background loops
         SetGameSpeed(5)
         WaveSkipsAuto(0.1)
         AutoUpgTower(0.25)
         AutoPlaceTowersCheck()
         CheckBaseHP()
+        CheckEnemiesOnWave25() -- !!! IMPORTANT: You must call this to start monitoring for the win
 
         if WaveGui then
             local waveConnection
@@ -157,25 +175,26 @@ end
             waveConnection = WaveGui:GetPropertyChangedSignal("Text"):Connect(function()
                 local waveNumber = tonumber(string.match(WaveGui.Text, "%d+"))
                 
-                if waveNumber and waveNumber >= 25 then
+                -- Check if we are at/past wave 25 AND the victory check set isBeat to true
+                if waveNumber and waveNumber >= 25 and isBeat == true then
                     if waveConnection then 
                         waveConnection:Disconnect() 
                     end
                     
-                    print("Wave 25 Reached! Preparing to replay...")
+                    print("Wave 25 Cleared! Preparing to return to lobby...")
                     
                     task.spawn(function()
                         table.clear(placedTowers)
-                        print("Placed Towers list has been reset!")
                         
-                        print("System Reset! Ready for the next match.")
+                        -- Adding a safety wait to ensure the game registers the win rewards
+                        wait(5) 
                         
-                        wait(5)
-                        print("Teleport back to lobby...")
-                        TeleportService:Teleport(14279693118, Player)
                         if queue_on_teleport then
                             queue_on_teleport(ScriptToRun)
                         end
+                        
+                        print("Teleporting back to lobby...")
+                        TeleportService:Teleport(14279693118, Player)
                     end)
                 end
             end)
