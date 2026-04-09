@@ -24,16 +24,10 @@ if game.PlaceId == 14279693118 then
     local CreateRemote = Events:WaitForChild("createServer")
     local StartRemote = Events:WaitForChild("start")
     print("Sending Create Server Request...")
-    local success, response = pcall(function()
-        return CreateRemote:InvokeServer("Chapter 4")
-    end)
-    if success then
-        print("Server Created! Starting Game...")
-        wait(1)
-        StartRemote:FireServer(true)
-    else
-        warn("Failed to create server: ", response)
-    end
+    CreateRemote:InvokeServer("Chapter 4")
+    print("Server Created! Starting Game...")
+    wait(1)
+    StartRemote:FireServer(true)
     return
 end
 
