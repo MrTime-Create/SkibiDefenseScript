@@ -45,20 +45,23 @@ if game.PlaceId == 14279693118 then
         if button then
             print("Found Start Button! Simulating human clicks...")
             local vim = game:GetService("VirtualInputManager")
+            local GuiService = game:GetService("GuiService")
             local initialText = button.Text
             
             while button and button.Parent and button.Text == initialText do
-                -- คำนวณจุดกึ่งกลางของปุ่ม (+36 ชดเชยขอบจอด้านบนของ Roblox)
-                local x = button.AbsolutePosition.X + (button.AbsoluteSize.X / 2)
-                local y = button.AbsolutePosition.Y + (button.AbsoluteSize.Y / 2) + 36
+                -- ใช้ GuiService ดึงค่าขอบจอด้านบนอัตโนมัติ เพื่อให้ตรงกับจอของคุณพอดี
+                local inset = GuiService:GetGuiInset()
                 
-                -- จำลองเมาส์กดลง (คลิกซ้าย)
+                local x = button.AbsolutePosition.X + (button.AbsoluteSize.X / 2)
+                local y = button.AbsolutePosition.Y + (button.AbsoluteSize.Y / 2) + inset.Y
+                
+                -- หากยังสูงไปอีก ให้เปลี่ยน inset.Y ด้านบน เป็นตัวเลข เช่น + 58 หรือ + 70
+                
                 vim:SendMouseButtonEvent(x, y, 0, true, game, 1)
-                task.wait(0.05) -- ระยะเวลากดค้างแบบคน
-                -- จำลองเมาส์ปล่อย
+                task.wait(0.05)
                 vim:SendMouseButtonEvent(x, y, 0, false, game, 1)
                 
-                task.wait(0.5) -- หน่วงเวลาก่อนกดครั้งต่อไป
+                task.wait(0.5)
             end
             print("Text changed! Stopped clicking.")
         else
@@ -68,6 +71,7 @@ if game.PlaceId == 14279693118 then
         warn("Failed to create server: " .. tostring(err))
     end
 end
+
 
 if game.PlaceId == 14279724900 then
     print("In Match: Starting AutoPlay...")
