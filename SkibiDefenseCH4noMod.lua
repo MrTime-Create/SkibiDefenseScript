@@ -25,12 +25,16 @@ if game.PlaceId == 14279693118 then
     if CreateRemote and StartRemote then
         wait(5)
 
+        print("Sending Create Server Request...")
         CreateRemote:InvokeServer("Chapter 4")
-        wait(1)
+        
+        wait(2)
+        
+        print("Starting Game...")
         StartRemote:FireServer()
     end
     
-    break 
+    --return -- ใช้ return แทน break เพื่อออกจากเงื่อนไขของ PlaceId นี้อย่างถูกต้อง
 end
 
 if game.PlaceId == 14279724900 then
