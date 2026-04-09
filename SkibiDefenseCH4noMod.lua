@@ -19,15 +19,22 @@ end
 
 if game.PlaceId == 14279693118 then
     print("At Lobby: Creating Server...")
-    local CreateRemote = game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("createServer")
-    local StartRemote = game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("start")
-    
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+    local Events = ReplicatedStorage:WaitForChild("Events")
+    local CreateRemote = Events:WaitForChild("createServer")
+    local StartRemote = Events:WaitForChild("start")
     if CreateRemote and StartRemote then
         print("Sending Create Server Request...")
-        CreateRemote:InvokeServer("Chapter 4")
-        print("Starting Game...")
-        StartRemote:FireServer(true)
+        local success = CreateRemote:InvokeServer("Chapter 4")
+        if success then
+            print("Server Created! Starting Game...")
+            task.wait(1)
+            StartRemote:FireServer(true)
+        else
+            warn("Create Server Failed!")
+        end
     end
+    return
 end
 
 if game.PlaceId == 14279724900 then
