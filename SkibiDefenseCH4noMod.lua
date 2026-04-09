@@ -30,7 +30,7 @@ if game.PlaceId == 14279693118 then
         StartRemote:FireServer()
     end
     
-    return 
+    break 
 end
 
 if game.PlaceId == 14279724900 then
