@@ -43,30 +43,22 @@ if game.PlaceId == 14279693118 then
             :WaitForChild("TextButton")
             
         if button then
-            print("Found Start Button! Auto-clicking until text changes...")
+            print("Found Start Button! Simulating human clicks...")
+            local vim = game:GetService("VirtualInputManager")
             local initialText = button.Text
             
             while button and button.Parent and button.Text == initialText do
-                if getconnections then
-                    local connections = getconnections(button.MouseButton1Click)
-                    if #connections > 0 then
-                        for _, connection in pairs(connections) do
-                            connection.Function() 
-                        end
-                    else
-                        if firesignal then
-                            firesignal(button.MouseButton1Click)
-                        else
-                            button:Activate()
-                        end
-                    end
-                elseif firesignal then
-                    firesignal(button.MouseButton1Click)
-                else
-                    button:Activate()
-                end
+                -- คำนวณจุดกึ่งกลางของปุ่ม (+36 ชดเชยขอบจอด้านบนของ Roblox)
+                local x = button.AbsolutePosition.X + (button.AbsoluteSize.X / 2)
+                local y = button.AbsolutePosition.Y + (button.AbsoluteSize.Y / 2) + 36
                 
-                task.wait(0.5)
+                -- จำลองเมาส์กดลง (คลิกซ้าย)
+                vim:SendMouseButtonEvent(x, y, 0, true, game, 1)
+                task.wait(0.05) -- ระยะเวลากดค้างแบบคน
+                -- จำลองเมาส์ปล่อย
+                vim:SendMouseButtonEvent(x, y, 0, false, game, 1)
+                
+                task.wait(0.5) -- หน่วงเวลาก่อนกดครั้งต่อไป
             end
             print("Text changed! Stopped clicking.")
         else
