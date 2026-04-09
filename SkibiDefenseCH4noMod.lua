@@ -23,16 +23,16 @@ if game.PlaceId == 14279693118 then
     local Events = ReplicatedStorage:WaitForChild("Events")
     local CreateRemote = Events:WaitForChild("createServer")
     local StartRemote = Events:WaitForChild("start")
-    if CreateRemote and StartRemote then
-        print("Sending Create Server Request...")
-        local success = CreateRemote:InvokeServer("Chapter 4")
-        if success then
-            print("Server Created! Starting Game...")
-            task.wait(1)
-            StartRemote:FireServer(true)
-        else
-            warn("Create Server Failed!")
-        end
+    print("Sending Create Server Request...")
+    local success, response = pcall(function()
+        return CreateRemote:InvokeServer("Chapter 4")
+    end)
+    if success then
+        print("Server Created! Starting Game...")
+        wait(1)
+        StartRemote:FireServer(true)
+    else
+        warn("Failed to create server: ", response)
     end
     return
 end
