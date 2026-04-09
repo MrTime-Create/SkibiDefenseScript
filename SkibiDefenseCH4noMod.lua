@@ -26,6 +26,11 @@ if game.PlaceId == 14279693118 then
         print("Sending Create Server Request...")
         CreateRemote:InvokeServer("Chapter 4")
         wait(2)
+
+        if queue_on_teleport then
+            queue_on_teleport(ScriptToRun)
+        end
+
         print("Starting Game...")
         StartRemote:FireServer()
         wait(1)
