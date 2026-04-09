@@ -16,19 +16,16 @@ end
 
 if game.PlaceId == 14279693118 then
     task.wait(15)
-    print("At Lobby: Creating Server...")
 
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local Events = ReplicatedStorage:WaitForChild("Events")
     local CreateRemote = Events:WaitForChild("createServer")
 
-    print("Sending Create Server Request...")
     local success, err = pcall(function()
         CreateRemote:InvokeServer("Chapter 4")
     end)
 
     if success then
-        print("Server Created! Waiting before pressing Start...")
         task.wait(10)
         
         local player = game:GetService("Players").LocalPlayer
@@ -43,32 +40,26 @@ if game.PlaceId == 14279693118 then
             :WaitForChild("TextButton")
             
         if button then
-            print("Found Start Button! Simulating human clicks...")
             local vim = game:GetService("VirtualInputManager")
-            local GuiService = game:GetService("GuiService")
             local initialText = button.Text
             
+            -- ปรับค่า Y_OFFSET ตรงนี้
+            -- (ถ้ากด "สูงเหนือปุ่ม" ให้เพิ่มเลข เช่น 58 หรือ 70)
+            -- (ถ้ากด "ต่ำกว่าปุ่ม" ให้ลดเลข หรือใส่ 0)
+            local Y_OFFSET = 58 
+            
             while button and button.Parent and button.Text == initialText do
-                -- ใช้ GuiService ดึงค่าขอบจอด้านบนอัตโนมัติ เพื่อให้ตรงกับจอของคุณพอดี
-                local inset = GuiService:GetGuiInset()
+                -- คำนวณจุดกึ่งกลางของปุ่มแบบเป๊ะๆ
+                local centerX = button.AbsolutePosition.X + (button.AbsoluteSize.X / 2)
+                local centerY = button.AbsolutePosition.Y + (button.AbsoluteSize.Y / 2) + Y_OFFSET
                 
-                local x = button.AbsolutePosition.X + (button.AbsoluteSize.X / 2)
-                local y = button.AbsolutePosition.Y + (button.AbsoluteSize.Y / 2) + inset.Y
-                
-                -- หากยังสูงไปอีก ให้เปลี่ยน inset.Y ด้านบน เป็นตัวเลข เช่น + 58 หรือ + 70
-                
-                vim:SendMouseButtonEvent(x, y, 0, true, game, 1)
+                vim:SendMouseButtonEvent(centerX, centerY, 0, true, game, 1)
                 task.wait(0.05)
-                vim:SendMouseButtonEvent(x, y, 0, false, game, 1)
+                vim:SendMouseButtonEvent(centerX, centerY, 0, false, game, 1)
                 
                 task.wait(0.5)
             end
-            print("Text changed! Stopped clicking.")
-        else
-            warn("Could not find the Start button! Make sure the path is correct.")
         end
-    else
-        warn("Failed to create server: " .. tostring(err))
     end
 end
 
