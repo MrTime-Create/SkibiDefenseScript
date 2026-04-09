@@ -3,7 +3,7 @@ if not game:IsLoaded() then
 end
 
 
-wait(10)
+wait(2)
 
 local Player = game:GetService("Players").LocalPlayer
 
@@ -13,9 +13,9 @@ local ScriptToRun = [[
     loadstring(game:HttpGet("https://raw.githubusercontent.com/MrTime-Create/SkibiDefenseScript/refs/heads/main/SkibiDefenseCH4noMod.lua"))()
 ]]
 
---if queue_on_teleport then
---    queue_on_teleport(ScriptToRun)
---end
+if queue_on_teleport then
+    queue_on_teleport(ScriptToRun)
+end
 
 if game.PlaceId == 14279693118 then
     print("At Lobby: Creating Server...")
@@ -26,11 +26,6 @@ if game.PlaceId == 14279693118 then
         print("Sending Create Server Request...")
         CreateRemote:InvokeServer("Chapter 4")
         wait(2)
-
-        if queue_on_teleport then
-            queue_on_teleport(ScriptToRun)
-        end
-
         print("Starting Game...")
         StartRemote:FireServer()
         wait(1)
