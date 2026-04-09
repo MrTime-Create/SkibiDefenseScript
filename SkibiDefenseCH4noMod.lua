@@ -28,6 +28,8 @@ if game.PlaceId == 14279693118 then
         wait(2)
         print("Starting Game...")
         StartRemote:FireServer()
+        wait(1)
+        StartRemote:FireServer(true)
     end
 end
 
