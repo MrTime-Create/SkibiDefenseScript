@@ -17,7 +17,8 @@ end
 if game.PlaceId == 14279693118 then
     task.wait(5)
     game:GetService("VirtualUser"):CaptureController()
-	game:GetService("VirtualUser"):ClickButton2(Vector2.new())end)
+	game:GetService("VirtualUser"):ClickButton1(Vector2.new())
+    end)
     task.wait(10)
     print("At Lobby: Creating Server...")
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
