@@ -2,9 +2,6 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
-
-wait(2)
-
 local Player = game:GetService("Players").LocalPlayer
 
 local queue_on_teleport = queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport) or getgenv().queue_on_teleport
@@ -18,6 +15,7 @@ if queue_on_teleport then
 end
 
 if game.PlaceId == 14279693118 then
+    task.wait(15)
     print("At Lobby: Creating Server...")
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local Events = ReplicatedStorage:WaitForChild("Events")
@@ -26,7 +24,7 @@ if game.PlaceId == 14279693118 then
     print("Sending Create Server Request...")
     CreateRemote:InvokeServer("Chapter 4")
     print("Server Created! Starting Game...")
-    wait(1)
+    task.wait(1)
     StartRemote:FireServer(true)
     return
 end
