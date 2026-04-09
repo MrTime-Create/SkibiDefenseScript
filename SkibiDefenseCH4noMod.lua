@@ -1,6 +1,6 @@
-if not game:IsLoaded() then
-    game.Loaded:Wait()
-end
+--if not game:IsLoaded() then
+--    game.Loaded:Wait()
+--end
 
 local Player = game:GetService("Players").LocalPlayer
 
