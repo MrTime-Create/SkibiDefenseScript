@@ -43,29 +43,32 @@ if game.PlaceId == 14279693118 then
             :WaitForChild("TextButton")
             
         if button then
-            print("Found Start Button! Bypassing Anti-Cheat...")
-            if getconnections then
-                local connections = getconnections(button.MouseButton1Click)
-                if #connections > 0 then
-                    for _, connection in pairs(connections) do
-                        connection.Function() 
-                    end
-                    print("Game Started successfully! (getconnections)")
-                else
-                    if firesignal then
-                        firesignal(button.MouseButton1Click)
-                        print("Game Started successfully! (firesignal)")
+            print("Found Start Button! Auto-clicking until text changes...")
+            local initialText = button.Text
+            
+            while button and button.Parent and button.Text == initialText do
+                if getconnections then
+                    local connections = getconnections(button.MouseButton1Click)
+                    if #connections > 0 then
+                        for _, connection in pairs(connections) do
+                            connection.Function() 
+                        end
                     else
-                        button:Activate()
+                        if firesignal then
+                            firesignal(button.MouseButton1Click)
+                        else
+                            button:Activate()
+                        end
                     end
+                elseif firesignal then
+                    firesignal(button.MouseButton1Click)
+                else
+                    button:Activate()
                 end
-            elseif firesignal then
-                firesignal(button.MouseButton1Click)
-                print("Game Started successfully! (firesignal)")
-            else
-                button:Activate()
-                print("Game Started! (Activate)")
+                
+                task.wait(0.5)
             end
+            print("Text changed! Stopped clicking.")
         else
             warn("Could not find the Start button! Make sure the path is correct.")
         end
@@ -73,8 +76,6 @@ if game.PlaceId == 14279693118 then
         warn("Failed to create server: " .. tostring(err))
     end
 end
-
-
 
 if game.PlaceId == 14279724900 then
     print("In Match: Starting AutoPlay...")
