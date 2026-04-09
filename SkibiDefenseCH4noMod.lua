@@ -23,11 +23,7 @@ if game.PlaceId == 14279693118 then
     local StartRemote = game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("start")
     
     if CreateRemote and StartRemote then
-        wait(1)
-        local virtualUser = game:GetService("VirtualUser")
-        virtualUser:ClickButton1(Vector2.new(0, 0))
         wait(5)
-
 
         CreateRemote:InvokeServer("Chapter 4")
         wait(1)
