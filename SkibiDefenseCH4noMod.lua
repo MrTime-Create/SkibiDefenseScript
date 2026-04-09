@@ -25,7 +25,7 @@ if game.PlaceId == 14279693118 then
     CreateRemote:InvokeServer("Chapter 4")
     print("Server Created! Starting Game...")
     task.wait(1)
-    StartRemote:FireServer(true)
+    StartRemote:FireServer()
     return
 end
 
