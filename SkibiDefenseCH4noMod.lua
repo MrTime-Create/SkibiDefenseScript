@@ -150,13 +150,11 @@ if game.PlaceId == 14279724900 then
             while wait(1) do
                 local waveNumber = tonumber(string.match(WaveGui.Text, "%d+"))
                 
-                -- ถ้า Wave >= 25 และไม่มีศัตรูเหลือแล้ว
                 if waveNumber and waveNumber >= 25 and #EnemiesData:GetChildren() == 0 then
                     isBeat = true
                     print("Match Finished (Wave 25+)! Preparing to return to lobby...")
                     
-                    -- ทำการ Teleport จากตรงนี้เลย ไม่ต้องรอ Event อื่น
-                    task.wait(2) -- รอให้ระบบเกมบันทึกข้อมูลแป๊บนึง
+                    task.wait(2)
                     
                     if queue_on_teleport then
                         queue_on_teleport(ScriptToRun)
@@ -165,7 +163,7 @@ if game.PlaceId == 14279724900 then
                     table.clear(placedTowers)
                     print("Teleporting back to lobby...")
                     TeleportService:Teleport(14279693118, Player)
-                    break -- หยุด Loop
+                    break
                 end
             end
         end)
