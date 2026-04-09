@@ -13,9 +13,9 @@ local ScriptToRun = [[
     loadstring(game:HttpGet("https://raw.githubusercontent.com/MrTime-Create/SkibiDefenseScript/refs/heads/main/SkibiDefenseCH4noMod.lua"))()
 ]]
 
-if queue_on_teleport then
-    queue_on_teleport(ScriptToRun)
-end
+--if queue_on_teleport then
+--    queue_on_teleport(ScriptToRun)
+--end
 
 if game.PlaceId == 14279693118 then
     print("At Lobby: Creating Server...")
@@ -23,18 +23,12 @@ if game.PlaceId == 14279693118 then
     local StartRemote = game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("start")
     
     if CreateRemote and StartRemote then
-        wait(5)
-
         print("Sending Create Server Request...")
         CreateRemote:InvokeServer("Chapter 4")
-        
         wait(2)
-        
         print("Starting Game...")
         StartRemote:FireServer()
     end
-    
-    --return -- ใช้ return แทน break เพื่อออกจากเงื่อนไขของ PlaceId นี้อย่างถูกต้อง
 end
 
 if game.PlaceId == 14279724900 then
