@@ -101,20 +101,6 @@ if game.PlaceId == 14279724900 then
         end)
     end
 
-    local function CheckEnemiesOnWave25()
-        task.spawn(function()
-            while wait(1) do
-                local waveNumber = tonumber(string.match(WaveGui.Text, "%d+"))
-                
-                if waveNumber and waveNumber >= 25 and #EnemiesData:GetChildren() == 0 then
-                    isBeat = true
-                    print("Wave 25 cleared: Victory detected!")
-                    break
-                end
-            end
-        end)
-    end
-
     local function AutoPlaceTowersCheck()
         task.spawn(function()
             while wait(0.5) do
@@ -135,70 +121,64 @@ if game.PlaceId == 14279724900 then
     end
 
     local function CheckBaseHP()
-    task.spawn(function()
-        while wait(0.2) do
-            if BaseHPGui then
-                local hpString = string.match(BaseHPGui.Text, "%d+") 
-                
-                if hpString then
-                    local currentHP = tonumber(hpString)
-                    if currentHP <= 0 then
-                        print("Base HP is 0! Teleporting back to Lobby...")
-                        
-                        if queue_on_teleport then
-                            queue_on_teleport(ScriptToRun)
+        task.spawn(function()
+            while wait(0.2) do
+                if BaseHPGui then
+                    local hpString = string.match(BaseHPGui.Text, "%d+") 
+                    
+                    if hpString then
+                        local currentHP = tonumber(hpString)
+                        if currentHP <= 0 then
+                            print("Base HP is 0! Teleporting back to Lobby...")
+                            
+                            if queue_on_teleport then
+                                queue_on_teleport(ScriptToRun)
+                            end
+                            
+                            TeleportService:Teleport(14279693118, Player)
+                            
+                            break
                         end
-                        
-                        TeleportService:Teleport(14279693118, Player)
-                        
-                        break
                     end
                 end
             end
-        end
-    end)
-end
+        end)
+    end
+
+    local function CheckEnemiesOnWave25()
+        task.spawn(function()
+            while wait(1) do
+                local waveNumber = tonumber(string.match(WaveGui.Text, "%d+"))
+                
+                -- ถ้า Wave >= 25 และไม่มีศัตรูเหลือแล้ว
+                if waveNumber and waveNumber >= 25 and #EnemiesData:GetChildren() == 0 then
+                    isBeat = true
+                    print("Match Finished (Wave 25+)! Preparing to return to lobby...")
+                    
+                    -- ทำการ Teleport จากตรงนี้เลย ไม่ต้องรอ Event อื่น
+                    task.wait(2) -- รอให้ระบบเกมบันทึกข้อมูลแป๊บนึง
+                    
+                    if queue_on_teleport then
+                        queue_on_teleport(ScriptToRun)
+                    end
+                    
+                    table.clear(placedTowers)
+                    print("Teleporting back to lobby...")
+                    TeleportService:Teleport(14279693118, Player)
+                    break -- หยุด Loop
+                end
+            end
+        end)
+    end
 
     local function AutoPlay()
         wait(5)
-        -- Start all background loops
         SetGameSpeed(5)
         WaveSkipsAuto(0.1)
         AutoUpgTower(0.25)
         AutoPlaceTowersCheck()
         CheckBaseHP()
         CheckEnemiesOnWave25() -- !!! IMPORTANT: You must call this to start monitoring for the win
-
-        if WaveGui then
-            local waveConnection
-            
-            waveConnection = WaveGui:GetPropertyChangedSignal("Text"):Connect(function()
-                local waveNumber = tonumber(string.match(WaveGui.Text, "%d+"))
-                
-                -- Check if we are at/past wave 25 AND the victory check set isBeat to true
-                if waveNumber and waveNumber >= 25 and isBeat == true then
-                    if waveConnection then 
-                        waveConnection:Disconnect() 
-                    end
-                    
-                    print("Wave 25 Cleared! Preparing to return to lobby...")
-                    
-                    task.spawn(function()
-                        table.clear(placedTowers)
-                        
-                        -- Adding a safety wait to ensure the game registers the win rewards
-                        wait(5) 
-                        
-                        if queue_on_teleport then
-                            queue_on_teleport(ScriptToRun)
-                        end
-                        
-                        print("Teleporting back to lobby...")
-                        TeleportService:Teleport(14279693118, Player)
-                    end)
-                end
-            end)
-        end
     end
 
     AutoPlay()
