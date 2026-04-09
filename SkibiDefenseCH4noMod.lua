@@ -15,34 +15,64 @@ if queue_on_teleport then
 end
 
 if game.PlaceId == 14279693118 then
-    task.wait(5)
-    
-    -- จำลองการคลิกเพื่อป้องกันการเช็ค AFK หรือเพื่อโฟกัสหน้าต่าง
-    game:GetService("VirtualUser"):CaptureController()
-    game:GetService("VirtualUser"):ClickButton1(Vector2.new())
-
-    task.wait(10)
+    task.wait(15)
     print("At Lobby: Creating Server...")
 
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local Events = ReplicatedStorage:WaitForChild("Events")
     local CreateRemote = Events:WaitForChild("createServer")
-    local StartRemote = Events:WaitForChild("start")
 
     print("Sending Create Server Request...")
-    -- ใช้ pcall เพื่อป้องกันสคริปต์ค้างหาก Remote เกิด Error
     local success, err = pcall(function()
         CreateRemote:InvokeServer("Chapter 4")
     end)
 
     if success then
-        print("Server Created! Starting Game...")
+        print("Server Created! Waiting before pressing Start...")
         task.wait(10)
-        StartRemote:FireServer()
+        
+        local player = game:GetService("Players").LocalPlayer
+        local playerGui = player:WaitForChild("PlayerGui")
+        
+        local button = playerGui:WaitForChild("Main")
+            :WaitForChild("Frame")
+            :WaitForChild("Layout")
+            :WaitForChild("ServerMenu")
+            :WaitForChild("Alpha")
+            :WaitForChild("Starting")
+            :WaitForChild("TextButton")
+            
+        if button then
+            print("Found Start Button! Bypassing Anti-Cheat...")
+            if getconnections then
+                local connections = getconnections(button.MouseButton1Click)
+                if #connections > 0 then
+                    for _, connection in pairs(connections) do
+                        connection.Function() 
+                    end
+                    print("Game Started successfully! (getconnections)")
+                else
+                    if firesignal then
+                        firesignal(button.MouseButton1Click)
+                        print("Game Started successfully! (firesignal)")
+                    else
+                        button:Activate()
+                    end
+                end
+            elseif firesignal then
+                firesignal(button.MouseButton1Click)
+                print("Game Started successfully! (firesignal)")
+            else
+                button:Activate()
+                print("Game Started! (Activate)")
+            end
+        else
+            warn("Could not find the Start button! Make sure the path is correct.")
     else
         warn("Failed to create server: " .. tostring(err))
     end
 end
+
 
 if game.PlaceId == 14279724900 then
     print("In Match: Starting AutoPlay...")
