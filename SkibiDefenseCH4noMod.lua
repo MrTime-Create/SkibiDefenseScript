@@ -1,6 +1,18 @@
 
 local Player = game:GetService("Players").LocalPlayer
 
+--game:GetService("RbxAnalyticsService"):GetClientId()
+
+local Whitelist = {
+    [8642639958] = true,
+}
+
+if not Whitelist[Player.UserId] then
+    Player:Kick("You are not in Whitelist!")
+    return
+end
+
+print("✅ Approve Whitelist succeed! Start working...")
 local queue_on_teleport = queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport) or (getgenv and getgenv().queue_on_teleport)
 
 local ScriptToRun = [[
