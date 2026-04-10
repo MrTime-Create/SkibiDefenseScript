@@ -82,7 +82,7 @@ if game.PlaceId == 14279724900 then
     local WaveGui = Player.PlayerGui:WaitForChild("Data"):WaitForChild("Wave"):WaitForChild("Frame"):WaitForChild("TextLabel")
     local BaseHPGui = Player.PlayerGui:WaitForChild("Data"):WaitForChild("HP"):WaitForChild("Frame"):WaitForChild("TextLabel")
     
-    task.wait(3)
+    task.wait(5)
     pcall(function() StartGameRemote:FireServer(true) end)
     
     local TowerData = game:GetService("Workspace"):WaitForChild("Scripted"):WaitForChild("TowerData")
@@ -184,7 +184,7 @@ if game.PlaceId == 14279724900 then
     end
 
     local function AutoPlay()
-        task.wait(3)
+        task.wait(5)
         SetGameSpeed(5)
         WaveSkipsAuto(0.1)
         AutoUpgTower(0.1)
