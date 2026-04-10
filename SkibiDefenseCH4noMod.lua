@@ -1,5 +1,20 @@
-local Player = game:GetService("Players").LocalPlayer
+local LocalPlayer = game:GetService("Players").LocalPlayer
 
+local success, WhitelistData = pcall(function()
+    return loadstring(game:HttpGet("https://raw.githubusercontent.com/YourName/YourRepo/main/Whitelist.lua"))()
+end)
+
+if not success or type(WhitelistData) ~= "table" then
+    warn("An error occurred while loading the data Whitelist")
+    return
+end
+
+if not WhitelistData[LocalPlayer.UserId] then
+    LocalPlayer:Kick("You are not in Whitelist!")
+    return
+end
+
+print("Approve Whitelist succeed! Start working...")
 local queue_on_teleport = queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport) or (getgenv and getgenv().queue_on_teleport)
 
 local ScriptToRun = [[
