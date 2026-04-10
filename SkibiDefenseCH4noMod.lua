@@ -1,20 +1,34 @@
-local LocalPlayer = game:GetService("Players").LocalPlayer
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
 
-local success, WhitelistData = pcall(function()
-    return loadstring(game:HttpGet("https://raw.githubusercontent.com/YourName/YourRepo/main/Whitelist.lua"))()
+local url = "https://raw.githubusercontent.com/MrTime-Create/SkibiDefenseScript/refs/heads/main/Whitelist.lua"
+
+local success, result = pcall(function()
+    local response = game:HttpGet(url)
+    return loadstring(response)()
 end)
 
-if not success or type(WhitelistData) ~= "table" then
-    warn("An error occurred while loading the data Whitelist")
+-- เช็คว่าดึงข้อมูลหรือรันคำสั่งสำเร็จไหม
+if not success then
+    warn("❌ Error รันไฟล์ไม่สำเร็จ สาเหตุ: " .. tostring(result))
     return
 end
+
+-- เช็คว่าสิ่งที่ได้กลับมาใช่ Table ไหม
+if type(result) ~= "table" then
+    warn("❌ รันไฟล์สำเร็จ แต่ข้อมูลที่ได้ไม่ใช่ Table! ข้อมูลที่ได้คือ: " .. type(result))
+    return
+end
+
+-- นำ result ไปใช้เป็น WhitelistData
+local WhitelistData = result
 
 if not WhitelistData[LocalPlayer.UserId] then
     LocalPlayer:Kick("You are not in Whitelist!")
     return
 end
 
-print("Approve Whitelist succeed! Start working...")
+print("✅ Approve Whitelist succeed! Start working...")
 local queue_on_teleport = queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport) or (getgenv and getgenv().queue_on_teleport)
 
 local ScriptToRun = [[
