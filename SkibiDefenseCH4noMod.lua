@@ -1,21 +1,20 @@
 local Player = game:GetService("Players").LocalPlayer
 
-local queue_on_teleport = queue_on_teleport or (getgenv and getgenv().queue_on_teleport)
+local queue_on_teleport = queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport) or (getgenv and getgenv().queue_on_teleport)
 
 local ScriptToRun = [[
-    if not game:IsLoaded() then
-        game.Loaded:Wait()
-    end
-    
-    task.wait(3) 
+    task.spawn(function()
+        repeat task.wait() until game:IsLoaded()
+        task.wait(3) 
 
-    local success, err = pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/MrTime-Create/SkibiDefenseScript/refs/heads/main/SkibiDefenseCH4noMod.lua"))()
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/MrTime-Create/SkibiDefenseScript/refs/heads/main/SkibiDefenseCH4noMod.lua"))()
+        end)
+
+        if not success then
+            warn("Queue on Teleport failed: " .. tostring(err))
+        end
     end)
-
-    if not success then
-        warn("Queue on Teleport failed: " .. tostring(err))
-    end
 ]]
 
 if queue_on_teleport then
@@ -25,7 +24,7 @@ else
 end
 
 if game.PlaceId == 14279693118 then
-    task.wait(15)
+    task.wait(10)
 
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local Events = ReplicatedStorage:WaitForChild("Events")
@@ -38,9 +37,7 @@ if game.PlaceId == 14279693118 then
     if success then
         task.wait(10)
         
-        local player = game:GetService("Players").LocalPlayer
-        local playerGui = player:WaitForChild("PlayerGui")
-        
+        local playerGui = Player:WaitForChild("PlayerGui")
         local button = playerGui:WaitForChild("Main")
             :WaitForChild("Frame")
             :WaitForChild("Layout")
@@ -54,42 +51,42 @@ if game.PlaceId == 14279693118 then
             local initialText = button.Text
             local Y_OFFSET = 58 
             
-            while button and button.Parent and button.Text == initialText do
-                local centerX = button.AbsolutePosition.X + (button.AbsoluteSize.X / 2)
-                local centerY = button.AbsolutePosition.Y + (button.AbsoluteSize.Y / 2) + Y_OFFSET
-                
-                vim:SendMouseButtonEvent(centerX, centerY, 0, true, game, 1)
-                task.wait(0.05)
-                vim:SendMouseButtonEvent(centerX, centerY, 0, false, game, 1)
-                
-                task.wait(2)
-            end
+            task.spawn(function()
+                while button and button.Parent and button.Text == initialText do
+                    local centerX = button.AbsolutePosition.X + (button.AbsoluteSize.X / 2)
+                    local centerY = button.AbsolutePosition.Y + (button.AbsoluteSize.Y / 2) + Y_OFFSET
+                    
+                    vim:SendMouseButtonEvent(centerX, centerY, 0, true, game, 1)
+                    task.wait(0.05)
+                    vim:SendMouseButtonEvent(centerX, centerY, 0, false, game, 1)
+                    
+                    task.wait(1.5)
+                end
+            end)
         end
     end
 end
 
-
 if game.PlaceId == 14279724900 then
     print("In Match: Starting AutoPlay...")
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
+    local TeleportService = game:GetService("TeleportService")
+    
     local ChangeRemote = ReplicatedStorage:WaitForChild("Game"):WaitForChild("Speed"):WaitForChild("Change")
     local WaveSkipsRemote = ReplicatedStorage:WaitForChild("Event"):WaitForChild("waveSkip")
     local StartGameRemote = ReplicatedStorage:WaitForChild("GAME_START"):WaitForChild("readyButton")
-    local ReplayCoreRemote = ReplicatedStorage:WaitForChild("Event"):WaitForChild("ReplayCore")
-
+    
     local PlaceTowerRemote = ReplicatedStorage:WaitForChild("Event"):WaitForChild("placeTower")
     local UpgradeTowerRemote = ReplicatedStorage:WaitForChild("Event"):WaitForChild("UpgradeTower")
-    
-    local TeleportService = game:GetService("TeleportService")
 
     local WaveGui = Player.PlayerGui:WaitForChild("Data"):WaitForChild("Wave"):WaitForChild("Frame"):WaitForChild("TextLabel")
     local BaseHPGui = Player.PlayerGui:WaitForChild("Data"):WaitForChild("HP"):WaitForChild("Frame"):WaitForChild("TextLabel")
     
-    wait(3)
-    StartGameRemote:FireServer(true)
+    task.wait(3)
+    pcall(function() StartGameRemote:FireServer(true) end)
+    
     local TowerData = game:GetService("Workspace"):WaitForChild("Scripted"):WaitForChild("TowerData")
     local EnemiesData = game:GetService("Workspace"):WaitForChild("Scripted"):WaitForChild("Enemies")
-
     local Money = Player:WaitForChild("leaderstats"):WaitForChild("Money")
 
     local TowerPrice = {
@@ -107,15 +104,14 @@ if game.PlaceId == 14279724900 then
     }
 
     local placedTowers = {}
-    local isBeat = false
 
     local function SetGameSpeed(Value)
-        ChangeRemote:FireServer(Value)
+        pcall(function() ChangeRemote:FireServer(Value) end)
     end
 
     local function WaveSkipsAuto(Delay)
         task.spawn(function()
-            while wait(Delay) do
+            while task.wait(Delay) do
                 pcall(function() WaveSkipsRemote:FireServer(true) end)
             end
         end)
@@ -123,7 +119,7 @@ if game.PlaceId == 14279724900 then
 
     local function AutoUpgTower(Delay)
         task.spawn(function()
-            while wait(Delay) do
+            while task.wait(Delay) do
                 for _, tower in pairs(TowerData:GetChildren()) do
                     pcall(function()
                         UpgradeTowerRemote:FireServer(tower.Name) 
@@ -135,7 +131,7 @@ if game.PlaceId == 14279724900 then
 
     local function AutoPlaceTowersCheck()
         task.spawn(function()
-            while wait(0.5) do
+            while task.wait(0.5) do
                 if Money then
                     for i = 1, #TowerPrice do
                         if not placedTowers[i] and Money.Value >= TowerPrice[i].Price then
@@ -144,7 +140,7 @@ if game.PlaceId == 14279724900 then
                                 placedTowers[i] = true
                                 print("Placed " .. TowerPrice[i].Name .. "!")
                             end)
-                            wait(1)
+                            task.wait(0.5)
                         end
                     end
                 end
@@ -154,17 +150,14 @@ if game.PlaceId == 14279724900 then
 
     local function CheckBaseHP()
         task.spawn(function()
-            while wait(0.2) do
+            while task.wait(1) do
                 if BaseHPGui then
                     local hpString = string.match(BaseHPGui.Text, "%d+") 
-                    
                     if hpString then
                         local currentHP = tonumber(hpString)
                         if currentHP <= 0 then
                             print("Base HP is 0! Teleporting back to Lobby...")
-                            
                             TeleportService:Teleport(14279693118, Player)
-                            
                             break
                         end
                     end
@@ -175,17 +168,12 @@ if game.PlaceId == 14279724900 then
 
     local function CheckEnemiesOnWave25()
         task.spawn(function()
-            while wait(10) do
+            while task.wait(10) do
                 local waveNumber = tonumber(string.match(WaveGui.Text, "%d+"))
-                
                 if waveNumber and waveNumber >= 25 and #EnemiesData:GetChildren() == 0 then
-                    isBeat = true
                     print("Match Finished (Wave 25+)! Preparing to return to lobby...")
-                    
                     task.wait(2)
-                    
                     table.clear(placedTowers)
-                    print("Teleporting back to lobby...")
                     TeleportService:Teleport(14279693118, Player)
                     break
                 end
@@ -194,13 +182,13 @@ if game.PlaceId == 14279724900 then
     end
 
     local function AutoPlay()
-        wait(5)
+        task.wait(3)
         SetGameSpeed(5)
         WaveSkipsAuto(0.1)
-        AutoUpgTower(0.25)
+        AutoUpgTower(0.1)
         AutoPlaceTowersCheck()
         CheckBaseHP()
-        CheckEnemiesOnWave25() -- !!! IMPORTANT: You must call this to start monitoring for the win
+        CheckEnemiesOnWave25() 
     end
 
     AutoPlay()
