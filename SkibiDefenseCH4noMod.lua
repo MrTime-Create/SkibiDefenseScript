@@ -42,14 +42,9 @@ if game.PlaceId == 14279693118 then
         if button then
             local vim = game:GetService("VirtualInputManager")
             local initialText = button.Text
-            
-            -- ปรับค่า Y_OFFSET ตรงนี้
-            -- (ถ้ากด "สูงเหนือปุ่ม" ให้เพิ่มเลข เช่น 58 หรือ 70)
-            -- (ถ้ากด "ต่ำกว่าปุ่ม" ให้ลดเลข หรือใส่ 0)
             local Y_OFFSET = 58 
             
             while button and button.Parent and button.Text == initialText do
-                -- คำนวณจุดกึ่งกลางของปุ่มแบบเป๊ะๆ
                 local centerX = button.AbsolutePosition.X + (button.AbsoluteSize.X / 2)
                 local centerY = button.AbsolutePosition.Y + (button.AbsoluteSize.Y / 2) + Y_OFFSET
                 
@@ -158,10 +153,6 @@ if game.PlaceId == 14279724900 then
                         if currentHP <= 0 then
                             print("Base HP is 0! Teleporting back to Lobby...")
                             
-                            if queue_on_teleport then
-                                queue_on_teleport(ScriptToRun)
-                            end
-                            
                             TeleportService:Teleport(14279693118, Player)
                             
                             break
@@ -182,10 +173,6 @@ if game.PlaceId == 14279724900 then
                     print("Match Finished (Wave 25+)! Preparing to return to lobby...")
                     
                     task.wait(2)
-                    
-                    if queue_on_teleport then
-                        queue_on_teleport(ScriptToRun)
-                    end
                     
                     table.clear(placedTowers)
                     print("Teleporting back to lobby...")
