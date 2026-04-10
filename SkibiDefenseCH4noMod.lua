@@ -4,14 +4,28 @@
 
 local Player = game:GetService("Players").LocalPlayer
 
-local queue_on_teleport = queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport) or getgenv().queue_on_teleport
+local queue_on_teleport = queue_on_teleport or (getgenv and getgenv().queue_on_teleport)
 
 local ScriptToRun = [[
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/MrTime-Create/SkibiDefenseScript/refs/heads/main/SkibiDefenseCH4noMod.lua"))()
+    if not game:IsLoaded() then
+        game.Loaded:Wait()
+    end
+    
+    task.wait(3) 
+
+    local success, err = pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/MrTime-Create/SkibiDefenseScript/refs/heads/main/SkibiDefenseCH4noMod.lua"))()
+    end)
+
+    if not success then
+        warn("Queue on Teleport failed: " .. tostring(err))
+    end
 ]]
 
 if queue_on_teleport then
     queue_on_teleport(ScriptToRun)
+else
+    warn("Your executor does not support queue_on_teleport!")
 end
 
 if game.PlaceId == 14279693118 then
