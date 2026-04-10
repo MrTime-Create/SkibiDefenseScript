@@ -93,7 +93,7 @@ if game.PlaceId == 14279724900 then
         [1] = {Name = "UpgSilver", Price = 0},
         [2] = {Name = "Speakerwoman", Price = 700},
         [3] = {Name = "DJ", Price = 13500},
-        [4] = {Name = "ArmadaSpeakerman", Price = 8000}
+        [4] = {Name = "ArmadaSpeakerman", Price = 8000},
         [5] = {Name = "UTCP", Price = 10200000},
     }
 
