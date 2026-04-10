@@ -168,7 +168,7 @@ if game.PlaceId == 14279724900 then
 
     local function CheckEnemiesOnWave25()
         task.spawn(function()
-            while task.wait(10) do
+            while task.wait(20) do
                 local waveNumber = tonumber(string.match(WaveGui.Text, "%d+"))
                 if waveNumber and waveNumber >= 25 and #EnemiesData:GetChildren() == 0 then
                     print("Match Finished (Wave 25+)! Preparing to return to lobby...")
