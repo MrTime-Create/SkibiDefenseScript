@@ -1,7 +1,3 @@
---if not game:IsLoaded() then
---    game.Loaded:Wait()
---end
-
 local Player = game:GetService("Players").LocalPlayer
 
 local queue_on_teleport = queue_on_teleport or (getgenv and getgenv().queue_on_teleport)
