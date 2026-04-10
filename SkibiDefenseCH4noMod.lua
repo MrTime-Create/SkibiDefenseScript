@@ -57,7 +57,7 @@ if game.PlaceId == 14279693118 then
                 task.wait(0.05)
                 vim:SendMouseButtonEvent(centerX, centerY, 0, false, game, 1)
                 
-                task.wait(0.5)
+                task.wait(2)
             end
         end
     end
