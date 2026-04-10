@@ -93,14 +93,16 @@ if game.PlaceId == 14279724900 then
         [1] = {Name = "UpgSilver", Price = 0},
         [2] = {Name = "Speakerwoman", Price = 700},
         [3] = {Name = "DJ", Price = 13500},
-        [4] = {Name = "UTCP", Price = 10200000},
+        [4] = {Name = "ArmadaSpeakerman", Price = 8000}
+        [5] = {Name = "UTCP", Price = 10200000},
     }
 
     local TowerLocation = {
         [1] = {Name = "UpgSilver", CFrame = CFrame.new(-391.57293701171875, -279.7645568847656, 277.38739013671875, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
         [2] = {Name = "Speakerwoman", CFrame = CFrame.new(-392.5389404296875, -279.764404296875, 271.63232421875, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
         [3] = {Name = "DJ", CFrame = CFrame.new(-428.2357482910156, -279.7644348144531, 281.806884765625, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
-        [4] = {Name = "UTCP", CFrame = CFrame.new(-336.0376892089844, -279.764404296875, 276.20135498046875, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
+        [4] = {Name = "ArmadaSpeakerman", CFrame = CFrame.new(-279.764404296875, 275.82574462890625, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
+        [5] = {Name = "UTCP", CFrame = CFrame.new(-336.0376892089844, -279.764404296875, 276.20135498046875, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
     }
 
     local placedTowers = {}
@@ -168,7 +170,7 @@ if game.PlaceId == 14279724900 then
 
     local function CheckEnemiesOnWave25()
         task.spawn(function()
-            while task.wait(20) do
+            while task.wait(30) do
                 local waveNumber = tonumber(string.match(WaveGui.Text, "%d+"))
                 if waveNumber and waveNumber >= 25 and #EnemiesData:GetChildren() == 0 then
                     print("Match Finished (Wave 25+)! Preparing to return to lobby...")
