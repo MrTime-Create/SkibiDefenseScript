@@ -111,12 +111,12 @@ if game.PlaceId == 14279724900 then
     }
 
     local TowerLocation = {
-        [1] = {Name = "UpgSilver", CFrame = CFrame.new(-391.57293701171875, -279.7645568847656, 277.38739013671875, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
-        [2] = {Name = "Speakerwoman", CFrame = CFrame.new(-392.5389404296875, -279.764404296875, 271.63232421875, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
-        [3] = {Name = "DJ", CFrame = CFrame.new(-428.2357482910156, -279.7644348144531, 281.806884765625, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
-        [4] = {Name = "UTCP", CFrame = CFrame.new(-336.0376892089844, -279.764404296875, 276.20135498046875, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
-        [5] = {Name = "ArmadaSpeakerman", CFrame = CFrame.new(-395.541748046875, -279.764404296875, 275.82574462890625, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
-        [6] = {Name = "ArmadaStrider", CFrame = CFrame.new(-336.0376892089844, -279.764404296875, 276.20135498046875, 1, 0, 0, 0, 1, 0, 0, 0, 1)}
+        [1] = {Name = "UpgSilver", CFrame = CFrame.new(-392, -280, 278, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
+        [2] = {Name = "Speakerwoman", CFrame = CFrame.new(-393, -280, 272, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
+        [3] = {Name = "DJ", CFrame = CFrame.new(-428, -280, 282, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
+        [4] = {Name = "UTCP", CFrame = CFrame.new(-336, -279.764404296875, 277, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
+        [5] = {Name = "ArmadaSpeakerman", CFrame = CFrame.new(-396, -280, 276, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
+        [6] = {Name = "ArmadaStrider", CFrame = CFrame.new(-340, -280, 276, 1, 0, 0, 0, 1, 0, 0, 0, 1)}
     }
 
     local placedTowers = {}
