@@ -115,7 +115,7 @@ if game.PlaceId == 14279724900 then
         [2] = {Name = "Speakerwoman", CFrame = CFrame.new(-393, -280, 272, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
         [3] = {Name = "DJ", CFrame = CFrame.new(-428, -280, 282, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
         [4] = {Name = "UTCP", CFrame = CFrame.new(-336, -279.764404296875, 277, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
-        [5] = {Name = "ArmadaSpeakerman", CFrame = CFrame.new(-396, -280, 276, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
+        [5] = {Name = "ArmadaSpeakerman", CFrame = CFrame.new(-394, -280, 277, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
         [6] = {Name = "ArmadaStrider", CFrame = CFrame.new(-340, -280, 276, 1, 0, 0, 0, 1, 0, 0, 0, 1)}
     }
 
