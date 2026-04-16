@@ -1,4 +1,3 @@
-
 local Player = game:GetService("Players").LocalPlayer
 
 --game:GetService("RbxAnalyticsService"):GetClientId()
