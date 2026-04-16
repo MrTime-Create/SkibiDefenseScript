@@ -20,7 +20,7 @@ local ScriptToRun = [[
         task.wait(3) 
 
         local success, err = pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/MrTime-Create/SkibiDefenseScript/refs/heads/main/SkibiDefenseCH4noMod.lua"))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/MrTime-Create/SkibiDefenseScript/refs/heads/main/SkibiDefenseCH4.lua"))()
         end)
 
         if not success then
