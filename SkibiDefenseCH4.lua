@@ -107,7 +107,7 @@ if game.PlaceId == 14279724900 then
         [3] = {Name = "DJ", Price = 13500},
         [4] = {Name = "UTCP", Price = 10200000},
         [5] = {Name = "ArmadaSpeakerman", Price = 8000},
-        [6] = {Name = "ArmadaStrider", Price = 5000000}
+        [6] = {Name = "ArmadaStrider", Price = 5000000},
     }
 
     local TowerLocation = {
@@ -116,7 +116,7 @@ if game.PlaceId == 14279724900 then
         [3] = {Name = "DJ", CFrame = CFrame.new(-428.2357482910156, -279.7644348144531, 281.806884765625, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
         [4] = {Name = "UTCP", CFrame = CFrame.new(-336.0376892089844, -279.764404296875, 276.20135498046875, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
         [5] = {Name = "ArmadaSpeakerman", CFrame = CFrame.new(-395.541748046875, -279.764404296875, 275.82574462890625, 1, 0, 0, 0, 1, 0, 0, 0, 1)},
-        [6] = {Name = "ArmadaStrider", CFrame = CFame.new(-400, -279.764404296875, 280, 1, 0, 0, 0, 1, 0, 0, 0, 1)}
+        [6] = {Name = "ArmadaStrider", CFrame = CFrame.new(-336.0376892089844, -279.764404296875, 276.20135498046875, 1, 0, 0, 0, 1, 0, 0, 0, 1)}
     }
 
     local placedTowers = {}
