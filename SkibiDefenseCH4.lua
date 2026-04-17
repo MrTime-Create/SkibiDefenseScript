@@ -88,7 +88,7 @@ if game.PlaceId == 14279724900 then
     }
 
     task.wait(5)
-    Remotes.Ready:FireServer(true)
+    pcall(function() Remotes.Ready:FireServer(true) end)
     
     -- Folders/Stats
     local TowerData = workspace:WaitForChild("Scripted"):WaitForChild("TowerData")
@@ -115,7 +115,6 @@ if game.PlaceId == 14279724900 then
     local function AutoAction()
         -- 1. Start & Speed
         task.wait(2)
-        pcall(function() Remotes.Ready:FireServer(true) end)
         pcall(function() Remotes.Speed:FireServer(5) end)
 
         -- 2. Main Loop (Combined for performance)
