@@ -144,7 +144,7 @@ if game.PlaceId == 14279724900 then
 
         -- 3. Game Status Check (Base HP & Wave Win)
         task.spawn(function()
-            while task.wait(2) do
+            while task.wait(30) do
                 -- Check HP
                 local hp = tonumber(HPLabel.Text:match("%d+"))
                 if hp and hp <= 0 then
