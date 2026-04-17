@@ -41,7 +41,7 @@ if game.PlaceId == 14279693118 then
     local CreateRemote = Events and Events:WaitForChild("createServer", 5)
 
     if CreateRemote then
-        task.wait(5)
+        task.wait(15)
         local success = pcall(function() return CreateRemote:InvokeServer("Chapter 4") end)
 
         if success then
