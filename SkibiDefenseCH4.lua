@@ -87,6 +87,8 @@ if game.PlaceId == 14279724900 then
         Upgrade = MainEvent:WaitForChild("UpgradeTower")
     }
 
+    Remotes.Reader:FireServer(true)
+
     -- Folders/Stats
     local TowerData = workspace:WaitForChild("Scripted"):WaitForChild("TowerData")
     local Enemies = workspace:WaitForChild("Scripted"):WaitForChild("Enemies")
