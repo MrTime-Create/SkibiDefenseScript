@@ -24,7 +24,7 @@ local ScriptToRun = [[
         if not game:IsLoaded() then game.Loaded:Wait() end
         task.wait(3) 
         pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/MrTime-Create/SkibiDefenseScript/refs/heads/main/SkibiDefenseCH4.lua"))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/MrTime-Create/SkibiDefenseScript/refs/heads/main/SkibiDefenseMultiverse1.lua"))()
         end)
     end)
 ]]
@@ -42,7 +42,7 @@ if game.PlaceId == 14279693118 then
 
     if CreateRemote then
         task.wait(15)
-        local success = pcall(function() return CreateRemote:InvokeServer("Chapter 4") end)
+        local success = pcall(function() return CreateRemote:InvokeServer("Multiverse Chapter 1") end)
 
         if success then
             local PlayerGui = Player:WaitForChild("PlayerGui")
