@@ -119,7 +119,7 @@ if game.PlaceId == 14279724900 then
     local function AutoAction()
         -- 1. Start & Speed
         task.wait(2)
-        pcall(function() Remotes.Speed:FireServer(5) end)
+        pcall(function() Remotes.Speed:FireServer(2) end)
 
         -- 2. Main Loop (Combined for performance)
         task.spawn(function()
@@ -136,6 +136,7 @@ if game.PlaceId == 14279724900 then
                     if not placedTowers[i] and Money.Value >= config.Price then
                         local success = pcall(function() 
                             Remotes.Place:FireServer(config.Name, config.Pos, false) 
+                            task.wait(1)
                         end)
                         if success then 
                             placedTowers[i] = true 
@@ -158,7 +159,7 @@ if game.PlaceId == 14279724900 then
 
                 -- Check Win (Wave 25+)
                 local wave = tonumber(WaveLabel.Text:match("%d+"))
-                if wave and wave >= 25 and #Enemies:GetChildren() == 0 then
+                if wave and wave >= 20 and #Enemies:GetChildren() == 0 then
                     task.wait(5) -- Wait for rewards
                     TeleportService:Teleport(14279693118, Player)
                     break
