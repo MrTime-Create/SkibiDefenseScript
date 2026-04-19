@@ -107,7 +107,7 @@ if game.PlaceId == 14279724900 then
         {Name = "MedicCam", Price = 700, Pos = CFrame.new(-353, -303, 167)},
         {Name = "MedicCam", Price = 700, Pos = CFrame.new(-355, -303, 167)},
         {Name = "MedicCam", Price = 700, Pos = CFrame.new(-354, -303, 170)},
-        {Name = "LargeClock", Price = 7500, Pos = CFrame.new(-337, -303, 180)},
+        {Name = "LargeClock", Price = 7500, Pos = CFrame.new(-336.5, -303, 181.3)},
         {Name = "GMan3", Price = 600000, Pos = CFrame.new(-350, -303, 178)},
         {Name = "DJ", Price = 13000, Pos = CFrame.new(-396.6, -303, 142.5)},
         
