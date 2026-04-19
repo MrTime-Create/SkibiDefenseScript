@@ -101,12 +101,14 @@ if game.PlaceId == 14279724900 then
     local HPLabel = DataGui:WaitForChild("HP"):WaitForChild("Frame"):WaitForChild("TextLabel")
 
     local TowerConfigs = {
-        {Name = "UpgSilver", Price = 0, Pos = CFrame.new(-392, -280, 278)},
-        {Name = "Speakerwoman", Price = 700, Pos = CFrame.new(-393, -280, 272)},
-        {Name = "DJ", Price = 13500, Pos = CFrame.new(-420, -280, 270)},
-        {Name = "UTCP", Price = 10200000, Pos = CFrame.new(-336, -280, 277)},
-        {Name = "ArmadaSpeakerman", Price = 8000, Pos = CFrame.new(-394, -280, 277)},
-        {Name = "ArmadaStrider", Price = 5000000, Pos = CFrame.new(-340, -280, 276)}
+        {Name = "DarkSpeakerman", Price = 800, Pos = CFrame.new(-363.3, -303, 163.2)},
+        {Name = "DarkSpeakerman", Price = 800, Pos = CFrame.new(-332.1, -303, 122.3)},
+        {Name = "Speakerwoman", Price = 800, Pos = CFrame.new(-351.1, -303, 143.6)},
+        {Name = "MedicCam", Price = 700, Pos = CFrame.new(-353, -303, 167)},
+        {Name = "MedicCam", Price = 700, Pos = CFrame.new(-355, -303, 167)},
+        {Name = "MedicCam", Price = 700, Pos = CFrame.new(-354, -303, 170)},
+        {Name = "LargeClock", Price = 7500, Pos = CFrame.new(-337, -303, 180)},
+        {Name = "GMan3", Price = 600000, Pos = CFrame.new(-350, -303, 178)},
     }
 
     local placedTowers = {}
