@@ -42,7 +42,7 @@ if game.PlaceId == 14279693118 then
 
     if CreateRemote then
         task.wait(15)
-        local success = pcall(CreateRemote.InvokeServer, CreateRemote, "Chapter 4")
+        local success = pcall(function() return CreateRemote:InvokeServer("Chapter 4") end)
 
         if success then
             local PlayerGui = Player:WaitForChild("PlayerGui")
@@ -88,7 +88,7 @@ if game.PlaceId == 14279724900 then
     }
 
     task.wait(5)
-    pcall(Remotes.Ready.FireServer, Remotes.Ready, true)
+    pcall(function() Remotes.Ready:FireServer(true) end)
     
     -- Folders/Stats
     local TowerData = workspace:WaitForChild("Scripted"):WaitForChild("TowerData")
@@ -115,37 +115,27 @@ if game.PlaceId == 14279724900 then
     local function AutoAction()
         -- 1. Start & Speed
         task.wait(2)
-        pcall(Remotes.Speed.FireServer, Remotes.Speed, 5)
+        pcall(function() Remotes.Speed:FireServer(5) end)
 
-        -- 2. Main Loop (Optimized for Luau Engine)
+        -- 2. Main Loop (Combined for performance)
         task.spawn(function()
-            -- Cache Method ของ Remote ไว้เพื่อประสิทธิภาพสูงสุด
-            local skipRemote = Remotes.Skip
-            local upgradeRemote = Remotes.Upgrade
-            local placeRemote = Remotes.Place
-            local fireServer = skipRemote.FireServer
-
             while task.wait(0.5) do
-                -- Auto Skip
-                pcall(fireServer, skipRemote, true)
+                -- Auto Skip & Upgrade (Fast loops inside)
+                pcall(function() Remotes.Skip:FireServer(true) end)
                 
-                -- Auto Upgrade (ใช้ Numeric loop และลดการสร้าง table closure)
-                local currentTowers = TowerData:GetChildren()
-                for i = 1, #currentTowers do
-                    pcall(fireServer, upgradeRemote, currentTowers[i].Name)
+                for _, tower in ipairs(TowerData:GetChildren()) do
+                    pcall(function() Remotes.Upgrade:FireServer(tower.Name) end)
                 end
 
                 -- Auto Place
-                local currentMoney = Money.Value
-                for i = 1, #TowerConfigs do
-                    if not placedTowers[i] then
-                        local config = TowerConfigs[i]
-                        if currentMoney >= config.Price then
-                            local success = pcall(fireServer, placeRemote, config.Name, config.Pos, false)
-                            if success then 
-                                placedTowers[i] = true 
-                                print("✅ Placed:", config.Name)
-                            end
+                for i, config in ipairs(TowerConfigs) do
+                    if not placedTowers[i] and Money.Value >= config.Price then
+                        local success = pcall(function() 
+                            Remotes.Place:FireServer(config.Name, config.Pos, false) 
+                        end)
+                        if success then 
+                            placedTowers[i] = true 
+                            print("✅ Placed:", config.Name)
                         end
                     end
                 end
@@ -156,16 +146,14 @@ if game.PlaceId == 14279724900 then
         task.spawn(function()
             while task.wait(30) do
                 -- Check HP
-                local hpText = HPLabel.Text
-                local hp = tonumber(hpText:match("%d+"))
+                local hp = tonumber(HPLabel.Text:match("%d+"))
                 if hp and hp <= 0 then
                     TeleportService:Teleport(14279693118, Player)
                     break
                 end
 
                 -- Check Win (Wave 25+)
-                local waveText = WaveLabel.Text
-                local wave = tonumber(waveText:match("%d+"))
+                local wave = tonumber(WaveLabel.Text:match("%d+"))
                 if wave and wave >= 25 and #Enemies:GetChildren() == 0 then
                     task.wait(5) -- Wait for rewards
                     TeleportService:Teleport(14279693118, Player)
