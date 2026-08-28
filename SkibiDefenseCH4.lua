@@ -99,6 +99,7 @@ if game.PlaceId == 14279724900 then
     local DataGui = Player.PlayerGui:WaitForChild("Data")
     local WaveLabel = DataGui:WaitForChild("Wave"):WaitForChild("Frame"):WaitForChild("TextLabel")
     local HPLabel = DataGui:WaitForChild("HP"):WaitForChild("Frame"):WaitForChild("TextLabel")
+    local RemainLabel = DataGui:WaitForChild("Wave"):WaitForChild("Frame"):WaitForChild("remain")
 
     local TowerConfigs = {
         {Name = "UpgSilver", Price = 0, Pos = CFrame.new(-561.83581542969, -279.76455688477, 19.216766357422)},
@@ -161,7 +162,7 @@ if game.PlaceId == 14279724900 then
 
                 -- Check Win (Wave 25+)
                 local wave = tonumber(WaveLabel.Text:match("%d+"))
-                if wave and wave >= 25 and #Enemies:GetChildren() == 0 then
+                if wave and wave >= 25 and #Enemies:GetChildren() == 0 and RemainLabel.Text == "0 Left" then
                     task.wait(5)
                     TeleportService:Teleport(14279693118, Player)
                     break
