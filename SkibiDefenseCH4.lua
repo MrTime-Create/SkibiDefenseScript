@@ -11,7 +11,7 @@ local Whitelist = {
 }
 
 if not Whitelist[Player.UserId] then
-    Player:Kick("You are not in Whitelist!")
+    Player:Kick("You are not in Whitelist! You having to pay owner")
     return
 end
 
@@ -104,9 +104,9 @@ if game.PlaceId == 14279724900 then
         {Name = "UpgSilver", Price = 0, Pos = CFrame.new(-561.83581542969, -279.76455688477, 19.216766357422)},
         {Name = "Speakerwoman", Price = 700, Pos = CFrame.new(-573.01110839844, -279.76440429688, 16.11022567749)},
         {Name = "DJ", Price = 13500, Pos = CFrame.new(-578.98693847656, -279.76443481445, 3.4188995361328)},
-        {Name = "UTCP", Price = 10200000, Pos = CFrame.new(-559.98187255859, -279.76440429688, 11.558878898621)},
+        {Name = "UTCP", Price = 13000000, Pos = CFrame.new(-559.98187255859, -279.76440429688, 11.558878898621)},
         {Name = "ArmadaSpeakerman", Price = 8000, Pos = CFrame.new(-560.45288085938, -279.76440429688, 22.294364929199)},
-        {Name = "ArmadaStrider", Price = 5000000, Pos = CFrame.new(-553.50939941406, -279.76440429688, 19.92643737793)}
+        {Name = "ArmadaStrider", Price = 10000000, Pos = CFrame.new(-553.50939941406, -279.76440429688, 19.92643737793)}
     }
 
     local placedTowers = {}
