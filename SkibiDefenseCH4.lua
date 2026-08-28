@@ -61,7 +61,7 @@ if game.PlaceId == 14279693118 then
                         VirtualInputManager:SendMouseButtonEvent(centerX, centerY, 0, true, game, 1)
                         task.wait(0.05)
                         VirtualInputManager:SendMouseButtonEvent(centerX, centerY, 0, false, game, 1)
-                        task.wait(1) -- ปรับให้ไม่คลิกไวเกินไปจนโดนเตะ
+                        task.wait(1)
                     end
                 end)
             end
@@ -104,7 +104,7 @@ if game.PlaceId == 14279724900 then
         {Name = "UpgSilver", Price = 0, Pos = CFrame.new(-561.83581542969, -279.76455688477, 19.216766357422)},
         {Name = "Speakerwoman", Price = 700, Pos = CFrame.new(-573.01110839844, -279.76440429688, 16.11022567749)},
         {Name = "DJ", Price = 13500, Pos = CFrame.new(-578.98693847656, -279.76443481445, 3.4188995361328)},
-        {Name = "UTCP", Price = 13000000, Pos = CFrame.new(-559.98187255859, -279.76440429688, 11.558878898621)},
+        {Name = "UTCP", Price = 14200000, Pos = CFrame.new(-559.98187255859, -279.76440429688, 11.558878898621)},
         {Name = "ArmadaSpeakerman", Price = 8000, Pos = CFrame.new(-560.45288085938, -279.76440429688, 22.294364929199)},
         {Name = "ArmadaStrider", Price = 10000000, Pos = CFrame.new(-553.50939941406, -279.76440429688, 19.92643737793)}
     }
@@ -117,34 +117,39 @@ if game.PlaceId == 14279724900 then
         task.wait(2)
         pcall(function() Remotes.Speed:FireServer(5) end)
 
-        -- 2. Main Loop (Combined for performance)
+        -- 2. Main Loop
         task.spawn(function()
             while task.wait(0.5) do
-                -- Auto Skip & Upgrade (Fast loops inside)
+                -- Auto Skip & Upgrade
                 pcall(function() Remotes.Skip:FireServer(true) end)
                 
                 for _, tower in ipairs(TowerData:GetChildren()) do
                     pcall(function() Remotes.Upgrade:FireServer(tower.Name) end)
                 end
 
-                -- Auto Place
+                -- Auto Place (ลองวางสูงสุด 3 ครั้ง)
                 for i, config in ipairs(TowerConfigs) do
                     if not placedTowers[i] and Money.Value >= config.Price then
-                        local success = pcall(function() 
-                            Remotes.Place:FireServer(config.Name, config.Pos, false) 
-                        end)
-                        if success then 
-                            placedTowers[i] = true 
-                            print("✅ Placed:", config.Name)
+                        for attempt = 1, 3 do
+                            local success = pcall(function() 
+                                Remotes.Place:FireServer(config.Name, config.Pos, false) 
+                            end)
+                            
+                            if success then 
+                                placedTowers[i] = true 
+                                print(string.format("✅ Placed: %s (Attempt %d)", config.Name, attempt))
+                                break 
+                            end
+                            task.wait(0.2) -- เว้นช่วง 0.2 วินาทีก่อนลองวางซ้ำ
                         end
                     end
                 end
             end
         end)
 
-        -- 3. Game Status Check (Base HP & Wave Win)
+        -- 3. Game Status Check
         task.spawn(function()
-            while task.wait(30) do
+            while task.wait(5) do
                 -- Check HP
                 local hp = tonumber(HPLabel.Text:match("%d+"))
                 if hp and hp <= 0 then
@@ -155,7 +160,7 @@ if game.PlaceId == 14279724900 then
                 -- Check Win (Wave 25+)
                 local wave = tonumber(WaveLabel.Text:match("%d+"))
                 if wave and wave >= 25 and #Enemies:GetChildren() == 0 then
-                    task.wait(5) -- Wait for rewards
+                    task.wait(5)
                     TeleportService:Teleport(14279693118, Player)
                     break
                 end
