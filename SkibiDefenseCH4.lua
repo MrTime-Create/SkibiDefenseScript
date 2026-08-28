@@ -106,7 +106,7 @@ if game.PlaceId == 14279724900 then
         {Name = "DJ", Price = 13500, Pos = CFrame.new(-578.98693847656, -279.76443481445, 3.4188995361328)},
         {Name = "ArmadaSpeakerman", Price = 8000, Pos = CFrame.new(-560.45288085938, -279.76440429688, 22.294364929199)},
         {Name = "ArmadaStrider", Price = 10000000, Pos = CFrame.new(-553.50939941406, -279.76440429688, 19.92643737793)},
-        {Name = "UTCP", Price = 14200000, Pos = CFrame.new(-559.98187255859, -279.76440429688, 11.558878898621)}
+        {Name = "UTCP", Price = 16000000, Pos = CFrame.new(-559.98187255859, -279.76440429688, 11.558878898621)}
     }
 
     local placedTowers = {}
