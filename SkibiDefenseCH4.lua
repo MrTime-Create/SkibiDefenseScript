@@ -104,7 +104,7 @@ if game.PlaceId == 14279724900 then
     local TowerConfigs = {
         {Name = "UpgSilver", Price = 0, Pos = CFrame.new(-561.83581542969, -279.76455688477, 19.216766357422)},
         {Name = "Speakerwoman", Price = 700, Pos = CFrame.new(-573.01110839844, -279.76440429688, 16.11022567749)},
-        {Name = "DJ", Price = 13500, Pos = CFrame.new(-578.98693847656, -279.76443481445, 3.4188995361328)},
+        {Name = "DJ", Price = 13000, Pos = CFrame.new(-578.98693847656, -279.76443481445, 3.4188995361328)},
         {Name = "ArmadaSpeakerman", Price = 8000, Pos = CFrame.new(-560.45288085938, -279.76440429688, 22.294364929199)},
         {Name = "ArmadaSpeakerman", Price = 8000, Pos = CFrame.new(-557.98388671875, -279.76440429688, 22.368808746338)},
         {Name = "ArmadaSpeakerman", Price = 8000, Pos = CFrame.new(-555.62805175781, -279.76440429688, 22.530536651611)},
