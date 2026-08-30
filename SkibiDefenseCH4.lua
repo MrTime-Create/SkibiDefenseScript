@@ -126,22 +126,33 @@ if game.PlaceId == 14279724900 then
         end)
 
         -- 2. Placement Loop (Every 5s)
+        --task.spawn(function()
+        --    while task.wait(5) do
+        --        for i, config in ipairs(TowerConfigs) do
+        --            if not placedTowers[i] and Money.Value >= config.Price then
+        --                local success = pcall(function() 
+        --                    Remotes.Place:FireServer(config.Name, config.Pos, false) 
+        --                end)
+        --                
+        --                if success then 
+        --                    placedTowers[i] = true 
+        --                    print(string.format("✅ Placed: %s (Index %d)", config.Name, i))
+        --                end
+        --            end
+        --        end
+        --    end
+        --end)
+
         task.spawn(function()
-            while task.wait(5) do
-                for i, config in ipairs(TowerConfigs) do
-                    if not placedTowers[i] and Money.Value >= config.Price then
-                        local success = pcall(function() 
-                            Remotes.Place:FireServer(config.Name, config.Pos, false) 
-                        end)
-                        
-                        if success then 
-                            placedTowers[i] = true 
-                            print(string.format("✅ Placed: %s (Index %d)", config.Name, i))
-                        end
-                    end
-                end
+    while task.wait(5) do
+        for i, config in ipairs(TowerConfigs) do
+            -- เช็คแค่ว่าเงินพอไหม ถ้าราคาผ่าน ให้ยิงคำสั่งวางทันที
+            if Money.Value >= config.Price then
+                Remotes.Place:FireServer(config.Name, config.Pos, false)
             end
-        end)
+        end
+    end
+end)
 
         -- 3. Game Status Check Loop
         task.spawn(function()
