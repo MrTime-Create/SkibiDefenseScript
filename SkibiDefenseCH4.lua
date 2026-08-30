@@ -114,6 +114,7 @@ if game.PlaceId == 14279724900 then
         task.wait(2)
         pcall(function() Remotes.Speed:FireServer(5) end)
 
+        -- 1. Auto Skip & Upgrade Loop (Every 0.5s)
         task.spawn(function()
             while task.wait(0.5) do
                 pcall(function() Remotes.Skip:FireServer(true) end)
@@ -121,26 +122,28 @@ if game.PlaceId == 14279724900 then
                 for _, tower in ipairs(TowerData:GetChildren()) do
                     pcall(function() Remotes.Upgrade:FireServer(tower.Name) end)
                 end
+            end
+        end)
 
+        -- 2. Placement Loop (Every 5s)
+        task.spawn(function()
+            while task.wait(5) do
                 for i, config in ipairs(TowerConfigs) do
                     if not placedTowers[i] and Money.Value >= config.Price then
-                        for attempt = 1, 3 do
-                            local success = pcall(function() 
-                                Remotes.Place:FireServer(config.Name, config.Pos, false) 
-                            end)
-                            
-                            if success then 
-                                placedTowers[i] = true 
-                                print(string.format("✅ Placed: %s (Attempt %d)", config.Name, attempt))
-                                break 
-                            end
-                            task.wait(0.2)
+                        local success = pcall(function() 
+                            Remotes.Place:FireServer(config.Name, config.Pos, false) 
+                        end)
+                        
+                        if success then 
+                            placedTowers[i] = true 
+                            print(string.format("✅ Placed: %s (Index %d)", config.Name, i))
                         end
                     end
                 end
             end
         end)
 
+        -- 3. Game Status Check Loop
         task.spawn(function()
             while task.wait(5) do
                 local hp = tonumber(HPLabel.Text:match("%d+"))
