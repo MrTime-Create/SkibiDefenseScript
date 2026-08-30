@@ -144,15 +144,14 @@ if game.PlaceId == 14279724900 then
         --end)
 
         task.spawn(function()
-    while task.wait(5) do
-        for i, config in ipairs(TowerConfigs) do
-            -- เช็คแค่ว่าเงินพอไหม ถ้าราคาผ่าน ให้ยิงคำสั่งวางทันที
-            if Money.Value >= config.Price then
-                Remotes.Place:FireServer(config.Name, config.Pos, false)
+            while task.wait(5) do
+                for i, config in ipairs(TowerConfigs) do
+                    if Money.Value >= config.Price then
+                        Remotes.Place:FireServer(config.Name, config.Pos, false)
+                    end
+                end
             end
-        end
-    end
-end)
+        end)
 
         -- 3. Game Status Check Loop
         task.spawn(function()
