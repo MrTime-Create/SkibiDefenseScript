@@ -148,6 +148,7 @@ if game.PlaceId == 14279724900 then
                 for i, config in ipairs(TowerConfigs) do
                     if Money.Value >= config.Price then
                         Remotes.Place:FireServer(config.Name, config.Pos, false)
+                        task.wait(1)
                     end
                 end
             end
